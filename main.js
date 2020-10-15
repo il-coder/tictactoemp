@@ -20,7 +20,7 @@ function send_move(id) //function to send user move over socket
     setTimeout(() => {
         document.getElementById('overlay').style.display="block";
         check_win();
-    }, 500);
+    }, 100);
 }
 
 socket.onmessage = function(e){
@@ -33,7 +33,7 @@ socket.onmessage = function(e){
     setTimeout(() => {
         document.getElementById('overlay').style.display="none";
         check_win();
-    }, 500);
+    }, 100);
 }
 
 function check_win()    //function to check if any one player wins or not after this move
@@ -150,3 +150,4 @@ function check_win()    //function to check if any one player wins or not after 
         document.getElementById('overlay').style.display="none";
     }
 }
+

@@ -6,10 +6,58 @@
 #mytable td {
     border: black 2px solid;
 }
+
 .mybtn {
     width: 100%;
     height: 100%;
     font-size: 40px;
+}
+
+.cm {
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+}
+
+.cm button {
+    font-size: 20px;
+}
+
+.cf {
+    background-image: linear-gradient(140deg, #EADEDB 0%, #BC70A4 50%, #BFD641 75%);
+    display: inline-block;
+    margin: none;
+    padding: 15px;
+}
+
+.cf > div {
+    color: white;
+    font-size: 70px;
+    display: inline-block;
+}
+
+.rot1{
+    transform: rotate3d(1,1,1,30deg);
+}
+
+.rot2{
+    transform: rotate3d(1,1,1,-15deg);
+}
+
+.rot3{
+    transform: rotate3d(1,1,1,15deg);
+}
+
+.pbtn {
+    font-size: 25px; 
+    padding-top: 0px; 
+    padding-right: 0px;
+    padding-left: 9.40px; 
+    padding-bottom: 5px;
+    position: absolute;
+    right: 0px;
+    top:0px;
+    transform: translate(-15%,15%);
 }
 
 #overlay {

@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <link rel="icon" href="ico.ico" type = "image/x-icon">
         <link rel="stylesheet" href="style.css">
@@ -14,7 +14,37 @@
         </style>
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid" id="mainMenu">
+            <div style="position: absolute; width: 100%; height: 100%; background-color: #03eaff; margin: none; left: 0; right: 0;"></div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1 class="text-center text-uppercase cf">
+                        <div class="rot1">t</div>
+                        <div class="rot2">i</div>
+                        <div class="rot3">c</div>
+                        <div class="">-</div>
+                        <div class="rot2">t</div>
+                        <div class="rot3">a</div>
+                        <div class="rot1">c</div>
+                        <div class="">-</div>
+                        <div class="rot3">t</div>
+                        <div class="rot1">o</div>
+                        <div class="rot2">e</div>
+                    </h1>
+                </div>
+            </div>
+            <div class="row cm">
+                <div class="col-md-4 offset-md-4 text-center">
+                    <h1 class="text-center text-uppercase text-danger">Main menu</h1>
+                    <button class="btn btn-primary btn-block cm">Local Game</button>
+                    <button class="btn btn-primary btn-block cm" onclick="document.getElementById('onGame').style.display='block'; document.getElementById('mainMenu').style.display='none';">Online Game</button>
+                    <button class="btn btn-primary btn-block cm">Host Game</button>
+                    <button class="btn btn-primary btn-block cm">Join Game</button>
+                    <button class="btn btn-primary btn-block cm">Help/Tutorial</button>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" style="display: none;" id="onGame">
             <div id="overlay">
                 <div class="spinner-border text-warning overlay-anim"></div>
                 <div class="col-md-12 text-center" id="overlay-text">Please wait.....Joining</div>
@@ -22,9 +52,24 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="text-center">TIC-TAC-TOE</h1>
+                    <button type="button" class="btn btn-primary pbtn" data-toggle="modal" data-target="#pauseMenu">&#9612;&#9612;</button>
                     <div>
                         <span class="font-weight-bold font-weight-italic">Status : </span>
                         <span>Test</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" data-backdrop="static" id="pauseMenu">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #ebc934;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">game paused</h2>
+                        </div>
+                        <div class="modal-body">
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal">Resume</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal">Forfeit</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="document.getElementById('onGame').style.display='none'; document.getElementById('mainMenu').style.display='block';">Main Menu</button>
+                        </div>
                     </div>
                 </div>
             </div>
