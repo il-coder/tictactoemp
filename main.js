@@ -1,4 +1,4 @@
-var play = 0,playerCount=1;
+var play = 0,playerCount=1,userTime,oppTime,userTime2,oppTime2;
 var socket,to1;
 
 function online(){
@@ -9,9 +9,12 @@ function online(){
     socket = new WebSocket('wss://connect.websocket.in/v3/12?apiKey=NxcDNyx8dSmaMAVSGc0jLCXSYXBEwxdmRBIdZUnuannYKQKhyXRIseij7wvO');
 
     socket.onopen = function(){
+        play = 0;
+        userTime = Date.now();
         playerCount=1;
         var msg={
             type:"conn",
+            time: userTime,
             };
         socket.send(JSON.stringify(msg));
         console.log("Connected");
@@ -23,8 +26,15 @@ function online(){
             }
             else if(playerCount==2)
             {
-                document.getElementById('overlay-text').innerHTML="Waiting for Opponent move";
-                document.getElementById('overlay').style.display="block";
+                if(userTime < oppTime)
+                {
+                    document.getElementById('overlay').style.display="none";
+                }
+                else
+                {
+                    document.getElementById('overlay-text').innerHTML="Waiting for Opponent move";
+                    document.getElementById('overlay').style.display="block";
+                }
             }
             else
             {
@@ -33,6 +43,7 @@ function online(){
                     type:"disconn",
                     };
                 socket.send(JSON.stringify(msg));
+                play = 0;
                 socket.close();
             }
         },2500);
@@ -55,37 +66,60 @@ function online(){
         }
         else if(msg.type=="playAgain")
         {
-            play = 1;
-        }
-        else if(msg.type=="playAgainConfirm")
-        {
-            document.getElementById('overlay').style.display="none";
+            oppTime2 = msg.time;
+            play += 1;
+            if(play==2)
+            {
+                play = 0;
+                if(userTime2 < oppTime2)
+                {
+                    document.getElementById('overlay').style.display="none";
+                }
+                else
+                {
+                    document.getElementById('overlay-text').innerHTML="Waiting for Opponent move";
+                    document.getElementById('overlay').style.display="block";
+                }
+            }
         }
         else if(msg.type=="quit")
         {
             playerCount -=1;
+            play = 0;
             gameOver("You Won!","Opponent quit the match.");
         }
         else if(msg.type=="player")
         {
             // console.log("player reported");
+            oppTime = msg.time;
             playerCount += 1;
         }
         else if(msg.type=="conn")
         {
+            oppTime = msg.time;
             var msg={
                 type:"player",
+                time: userTime,
             };
             socket.send(JSON.stringify(msg));
             playerCount += 1;
             if(playerCount==2)
             {
-                document.getElementById('overlay').style.display="none";
+                if(userTime < oppTime)
+                {
+                    document.getElementById('overlay').style.display="none";
+                }
+                else
+                {
+                    document.getElementById('overlay-text').innerHTML="Waiting for Opponent move";
+                    document.getElementById('overlay').style.display="block";
+                }
             }
         }
         else if(msg.type=="disconn")
         {
             playerCount -= 1;
+            play = 0;
             if(playerCount<=1)
             {
                 for(let i=1;i<=9;i++)
@@ -231,26 +265,29 @@ function check_win()    //function to check if any one player wins or not after 
     }
 }
 
-function mainMenu(){
+function mainMenu()     //Function to go to main menu and quit the match
+{
     var msg={
         type:"quit",
         };
     socket.send(JSON.stringify(msg));
+    play = 0;
     document.getElementById('onGame').style.display='none'; 
     document.getElementById('mainMenu').style.display='block';
     socket.close();
 }
 
-function forfeit()
+function forfeit()      //Function to forfeit the match
 {
     var msg={
         type:"forfeit",
         };
     socket.send(JSON.stringify(msg));
+    play = 0;
     gameOver("You Lost!","You forfeited the match.");
 }
 
-function gameOver(title,msg)
+function gameOver(title,msg)    //Function to display game over dialog box
 {
     document.getElementById('overlay').style.display="none";
     $("#gameOver").modal();
@@ -258,28 +295,36 @@ function gameOver(title,msg)
     document.getElementById('overTitle').innerHTML = title;
 }
 
-function playAgain(){
+function playAgain()        //Function to implement play again functionality
+{
     for(let i=1;i<=9;i++)
     {
         var str = "btn_" + i; 
         document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
         document.getElementById(str).disabled = false;
     }
-    if(play==1)
+    userTime2 = Date.now();
+    play += 1;
+    var msg={
+        type:"playAgain",
+        time: userTime2,
+    };
+    socket.send(JSON.stringify(msg));
+    if(play==2)
     {
-        document.getElementById('overlay-text').innerHTML="Waiting for Opponent move";
-        document.getElementById('overlay').style.display="block";
-        var msg={
-            type:"playAgainConfirm",
-            };
-        socket.send(JSON.stringify(msg));
+        play = 0;
+        if(userTime2 < oppTime2)
+        {
+            document.getElementById('overlay').style.display="none";
+        }
+        else
+        {
+            document.getElementById('overlay-text').innerHTML="Waiting for Opponent move";
+            document.getElementById('overlay').style.display="block";
+        }
     }
     else
     {
-        var msg={
-            type:"playAgain",
-            };
-        socket.send(JSON.stringify(msg));
         document.getElementById('overlay-text').innerHTML="Waiting for Opponent to respond....";
         document.getElementById('overlay').style.display="block";
     }
