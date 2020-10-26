@@ -37,7 +37,7 @@
                 <div class="col-md-4 offset-md-4 text-center">
                     <h1 class="text-center text-uppercase text-danger">Main menu</h1>
                     <button class="btn btn-primary btn-block cm">Local Game</button>
-                    <button class="btn btn-primary btn-block cm" onclick="document.getElementById('onGame').style.display='block'; document.getElementById('mainMenu').style.display='none';">Online Game</button>
+                    <button class="btn btn-primary btn-block cm" onclick="javascript:online();">Online Game</button>
                     <button class="btn btn-primary btn-block cm">Host Game</button>
                     <button class="btn btn-primary btn-block cm">Join Game</button>
                     <button class="btn btn-primary btn-block cm">Help/Tutorial</button>
@@ -51,7 +51,21 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="text-center">TIC-TAC-TOE</h1>
+                    <div class="text-center">
+                        <h1 class="text-center text-uppercase cf">
+                            <div class="rot1">t</div>
+                            <div class="rot2">i</div>
+                            <div class="rot3">c</div>
+                            <div class="">-</div>
+                            <div class="rot2">t</div>
+                            <div class="rot3">a</div>
+                            <div class="rot1">c</div>
+                            <div class="">-</div>
+                            <div class="rot3">t</div>
+                            <div class="rot1">o</div>
+                            <div class="rot2">e</div>
+                        </h1>
+                    </div>
                     <button type="button" class="btn btn-primary pbtn" data-toggle="modal" data-target="#pauseMenu">&#9612;&#9612;</button>
                     <div>
                         <span class="font-weight-bold font-weight-italic">Status : </span>
@@ -67,8 +81,25 @@
                         </div>
                         <div class="modal-body">
                             <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal">Resume</button>
-                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal">Forfeit</button>
-                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="document.getElementById('onGame').style.display='none'; document.getElementById('mainMenu').style.display='block';">Main Menu</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" data-toggle="modal" data-target="#matchLog">Match Log</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:forfeit();">Forfeit</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:mainMenu();">Main Menu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" data-backdrop="static" id="gameOver">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #ebc934;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">game over</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="font-weight-bold lead text-center" id='overTitle'></h1>
+                            <p class="font-italic font-weight-bolder lead text-center" id="overMsg"></p>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal">Match Log</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javascript:playAgain();">Play Again</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:mainMenu();">Main Menu</button>
                         </div>
                     </div>
                 </div>
