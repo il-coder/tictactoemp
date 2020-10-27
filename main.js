@@ -309,8 +309,7 @@ function message()  //function for performing tasks based on message received
                         var str = "btn_" + i; 
                         document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
                         document.getElementById(str).disabled = false;
-                    }
-                    document.getElementById('overlay-msg').innerHTML="Please wait.....Joining";   
+                    }   
                 }
                 if(msg.choice==1)
                 {
@@ -520,6 +519,7 @@ function mainMenu(ch)     //Function to go to main menu and quit the match
         };
     socket.send(JSON.stringify(msg));
     play = 0;
+    document.getElementById('overlay-msg').innerHTML="Please wait.....Joining";
     document.getElementById('onGame').style.display='none'; 
     document.getElementById('mainMenu').style.display='block';
     socket.close();
