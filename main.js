@@ -316,6 +316,11 @@ function message()  //function for performing tasks based on message received
                     gameOver("You Won!","Opponent quit the match.");
                     log.innerHTML += "<p>You Won! Opponent quits.</p>";
                 }
+                else
+                {
+                    document.getElementById('overlay-msg').innerHTML="Opponent disconnected. Waiting for Opponent to join";   
+                    document.getElementById('overlay').style.display="block";
+                }
             }
             else if(msg.type=="player")
             {
