@@ -1,9 +1,15 @@
 var play = 0,playerCount=1,userTime,oppTime,userTime2,oppTime2;
-var socket,to1,scnt=21,code,code_channel,mode=0;
+var socket,to1,iv1,scnt=21,code,code_channel,mode=0;
 var log = document.getElementById('gameLogText');
 
 function online()   //function to implement online multiplayer
 {
+    for(let i=1;i<=9;i++)
+    {
+        var str = "btn_" + i; 
+        document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+        document.getElementById(str).disabled = false;
+    }
     mode = 0;
     to1 = setTimeout(()=>{
         window.alert("Unable to connect. Please try again later.");
@@ -33,7 +39,7 @@ function online()   //function to implement online multiplayer
             };
         socket.send(JSON.stringify(msg));
         console.log("Connected to",scnt);
-        setTimeout(()=>{
+        iv1 = setInterval(()=>{
             console.log(playerCount);
             if(playerCount==1)
             {
@@ -41,6 +47,7 @@ function online()   //function to implement online multiplayer
             }
             else if(playerCount==2)
             {
+                clearInterval(iv1);
                 if(userTime < oppTime)
                 {
                     document.getElementById('overlay').style.display="none";
@@ -53,6 +60,7 @@ function online()   //function to implement online multiplayer
             }
             else
             {
+                clearInterval(iv1);
                 scnt+=1;
                 var msg={
                     type:"disconn",
@@ -79,6 +87,12 @@ function online()   //function to implement online multiplayer
 
 function host()     //function to allow to generate code and connect using it
 {
+    for(let i=1;i<=9;i++)
+    {
+        var str = "btn_" + i; 
+        document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+        document.getElementById(str).disabled = false;
+    }
     mode=1;
     code="";
     to1 = setTimeout(()=>{
@@ -100,7 +114,7 @@ function host()     //function to allow to generate code and connect using it
         code += str[Math.floor(Math.random() * 62)];
     }
     document.getElementById('joiner').style.display="block";
-    document.getElementById('joiner').innerHTML += code;
+    document.getElementById('joiner').innerHTML= "Room code is : "+code;
     document.getElementById('onGame').style.display='block'; 
     document.getElementById('mainMenu').style.display='none';
     document.getElementById('overlay').style.display="block";
@@ -120,7 +134,7 @@ function host()     //function to allow to generate code and connect using it
             };
         socket.send(JSON.stringify(msg));
         console.log("Connected to",code_channel," and ",code);
-        setTimeout(()=>{
+        iv1 = setInterval(()=>{
             console.log(playerCount);
             if(playerCount==1)
             {
@@ -128,6 +142,7 @@ function host()     //function to allow to generate code and connect using it
             }
             else if(playerCount==2)
             {
+                clearInterval(iv1);
                 if(userTime < oppTime)
                 {
                     document.getElementById('overlay').style.display="none";
@@ -140,6 +155,7 @@ function host()     //function to allow to generate code and connect using it
             }
             else
             {
+                clearInterval(iv1);
                 var msg={
                     type:"disconn",
                     id: code,
@@ -158,6 +174,12 @@ function host()     //function to allow to generate code and connect using it
 
 function join()     //function to implement join with others using code functionality
 {
+    for(let i=1;i<=9;i++)
+    {
+        var str = "btn_" + i; 
+        document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+        document.getElementById(str).disabled = false;
+    }
     mode=1;
     to1 = setTimeout(()=>{
         window.alert("Unable to connect. Please try again later.");
@@ -187,7 +209,7 @@ function join()     //function to implement join with others using code function
             };
         socket.send(JSON.stringify(msg));
         console.log("Connected to",code_channel," and ",code);
-        setTimeout(()=>{
+        iv1 = setInterval(()=>{
             console.log(playerCount);
             if(playerCount==1)
             {
@@ -205,8 +227,9 @@ function join()     //function to implement join with others using code function
             }
             else if(playerCount==2)
             {
+                clearInterval(iv1);
                 document.getElementById('joiner').style.display="block";
-                document.getElementById('joiner').innerHTML += code;
+                document.getElementById('joiner').innerHTML= "Room code is : "+code;
                 if(userTime < oppTime)
                 {
                     document.getElementById('overlay').style.display="none";
@@ -219,6 +242,7 @@ function join()     //function to implement join with others using code function
             }
             else
             {
+                clearInterval(iv1);
                 var msg={
                     type:"disconn",
                     id: code,
@@ -278,6 +302,16 @@ function message()  //function for performing tasks based on message received
             {
                 playerCount -=1;
                 play = 0;
+                if(playerCount<=1)
+                {
+                    for(let i=1;i<=9;i++)
+                    {
+                        var str = "btn_" + i; 
+                        document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+                        document.getElementById(str).disabled = false;
+                    }
+                    document.getElementById('overlay-msg').innerHTML="Please wait.....Joining";   
+                }
                 if(msg.choice==1)
                 {
                     gameOver("You Won!","Opponent quit the match.");
@@ -300,18 +334,6 @@ function message()  //function for performing tasks based on message received
                 };
                 socket.send(JSON.stringify(msg));
                 playerCount += 1;
-                if(playerCount==2)
-                {
-                    if(userTime < oppTime)
-                    {
-                        document.getElementById('overlay').style.display="none";
-                    }
-                    else
-                    {
-                        document.getElementById('overlay-msg').innerHTML="Waiting for Opponent move";
-                        document.getElementById('overlay').style.display="block";
-                    }
-                }
             }
             else if(msg.type=="disconn")
             {
@@ -330,6 +352,19 @@ function message()  //function for performing tasks based on message received
                 }
             }
         }
+    }
+
+    socket.onerror=()=>{
+        window.alert("Network Error Occurred. Please check your connection and try again later.");
+        var msg={
+            type:"disconn",
+            id: code,
+            };
+        socket.send(JSON.stringify(msg));
+        socket.close();
+        document.getElementById('onGame').style.display='none'; 
+        document.getElementById('mainMenu').style.display='block';
+        document.getElementById('overlay').style.display="none";
     }
 }
 
@@ -523,6 +558,49 @@ function playAgain()        //Function to implement play again functionality
     {
         document.getElementById('overlay-msg').innerHTML="Waiting for Opponent to join";   
         document.getElementById('overlay').style.display="block";
+        iv1 = setInterval(()=>{
+            console.log(playerCount);
+            if(playerCount==1)
+            {
+                document.getElementById('overlay-msg').innerHTML="Waiting for Opponent to join";   
+            }
+            else if(playerCount==2)
+            {
+                clearInterval(iv1);
+                if(userTime < oppTime)
+                {
+                    document.getElementById('overlay').style.display="none";
+                }
+                else
+                {
+                    document.getElementById('overlay-msg').innerHTML="Waiting for Opponent move";
+                    document.getElementById('overlay').style.display="block";
+                }
+            }
+            else
+            {
+                clearInterval(iv1);
+                scnt+=1;
+                var msg={
+                    type:"disconn",
+                    id: code,
+                    };
+                socket.send(JSON.stringify(msg));
+                play = 0;
+                socket.close();
+                if(scnt>40)
+                {
+                    window.alert("Room is full");
+                    document.getElementById('onGame').style.display='none'; 
+                    document.getElementById('mainMenu').style.display='block';
+                    document.getElementById('overlay').style.display="none";
+                    return;
+                }
+                socket.onclose = ()=>{
+                    online();
+                };
+            }
+        },2500);
         return;
     }
     userTime2 = Date.now();
