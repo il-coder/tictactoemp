@@ -38,16 +38,40 @@
                     <h1 class="text-center text-uppercase text-danger">Main menu</h1>
                     <button class="btn btn-primary btn-block cm">Local Game</button>
                     <button class="btn btn-primary btn-block cm" onclick="javascript:online();">Online Game</button>
-                    <button class="btn btn-primary btn-block cm">Host Game</button>
-                    <button class="btn btn-primary btn-block cm">Join Game</button>
+                    <button class="btn btn-primary btn-block cm" onclick="javascript:host();">Host Game</button>
+                    <button class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#joinBox">Join Game</button>
                     <button class="btn btn-primary btn-block cm">Help/Tutorial</button>
+                </div>
+            </div>
+            <div class="modal fade" data-backdrop="static" id="joinBox">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #ebc934;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">Join Game</h2>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" maxlength="8" id="joinCode" placeholder="Enter code here">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="javascript:join();">Join</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="container-fluid" style="display: none;" id="onGame">
             <div id="overlay">
                 <div class="spinner-border text-warning overlay-anim"></div>
-                <div class="col-md-12 text-center" id="overlay-text">Please wait.....Joining</div>
+                <div class="col-md-12 text-center" id="overlay-text">
+                    <p id="overlay-msg">Please wait.....Joining</p>
+                    <a onclick="javscript:copyToClip();" id="joiner">Room Code is : </a>
+                </div>
+                <div class="toast">
+                    <div class="toast-header">
+                        Code Copied to Clipboard
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -68,8 +92,7 @@
                     </div>
                     <button type="button" class="btn btn-primary pbtn" data-toggle="modal" data-target="#pauseMenu">&#9612;&#9612;</button>
                     <div>
-                        <span class="font-weight-bold font-weight-italic">Status : </span>
-                        <span>Test</span>
+                        <span class="font-weight-bold font-weight-italic" id="status"></span>
                     </div>
                 </div>
             </div>
@@ -81,9 +104,9 @@
                         </div>
                         <div class="modal-body">
                             <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal">Resume</button>
-                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" data-toggle="modal" data-target="#matchLog">Match Log</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#gameLog">Match Log</button>
                             <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:forfeit();">Forfeit</button>
-                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:mainMenu();">Main Menu</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:mainMenu(1);">Main Menu</button>
                         </div>
                     </div>
                 </div>
@@ -97,9 +120,26 @@
                         <div class="modal-body">
                             <h1 class="font-weight-bold lead text-center" id='overTitle'></h1>
                             <p class="font-italic font-weight-bolder lead text-center" id="overMsg"></p>
-                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal">Match Log</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#gameLog">Match Log</button>
                             <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javascript:playAgain();">Play Again</button>
-                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:mainMenu();">Main Menu</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:mainMenu(0);">Main Menu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" data-backdrop="static" id="gameLog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #9ff5e4;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">game log</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div style="overflow-y: auto; width: auto; height: 300px;" id="gameLogText">
+                                <p>Match Started</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>

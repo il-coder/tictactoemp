@@ -71,23 +71,40 @@
     bottom: 0;
     background-color: rgba(0,0,0,0.5);
     z-index: 9999;
-    cursor: none;
+    cursor: default;
 }
 #overlay-text {
     position: absolute;
-    top: 85%;
+    top: 90%;
     left: 50%;
     color: white;
     font-size: 25px;
     transform: translate(-50%,-85%);
     -ms-transform: translate(-50%,-70%)
 }
+#joiner {
+    display: none;
+    cursor: pointer;
+}
+.toast {
+    background-color: black;
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.toast .toast-header{
+    background-color: black;
+    color: white;
+    font-size: 25px;
+}
 .overlay-anim {
     width: 100px;
     height: 100px;
     position: fixed;
     border-width: 10px;
-    top: 85%;
+    top: 80%;
     left: 50%;
     margin-top: -150px;
     margin-left: -50px;
