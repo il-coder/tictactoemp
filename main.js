@@ -11,13 +11,19 @@ var localLog = document.getElementById('gameLogLocalText');
 function local()    //function to implement local game
 {
     mode = 2;
+    localLog.innerHTML = "<p>Match Started</p>";
+    for(let i=1;i<=9;i++)
+    {
+        var str = "btn_" + i + '_local'; 
+        document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+        document.getElementById(str).disabled = false;
+    }
+    turn = 1;
+    cnt = 1;
+    st.innerHTML = "Player 1 turn";
     document.getElementById('joiner').style.display="none";
     document.getElementById('offGame').style.display='block'; 
     document.getElementById('mainMenu').style.display='none';
-    if(turn==1)
-        st.innerHTML = "Player 1 turn";
-    else
-        st.innerHTML = "Player 2 turn";
 }
 
 function check_win_local()
@@ -157,6 +163,11 @@ function mainMenuLocal()
 
 function online()   //function to implement online multiplayer
 {
+    if(!navigator.onLine)
+    {
+        showError("You are not connected to internet.");
+        return;
+    }
     for(let i=1;i<=9;i++)
     {
         var str = "btn_" + i; 
@@ -164,13 +175,13 @@ function online()   //function to implement online multiplayer
         document.getElementById(str).disabled = false;
     }
     mode = 0;
-    to1 = setTimeout(()=>{
-        document.getElementById('onGame').style.display='none'; 
-        document.getElementById('mainMenu').style.display='block';
-        document.getElementById('overlay').style.display="none";
-        showError("Unable to connect. Please try again later.");
-        return;
-    },10000);
+    // to1 = setTimeout(()=>{
+    //     document.getElementById('onGame').style.display='none'; 
+    //     document.getElementById('mainMenu').style.display='block';
+    //     document.getElementById('overlay').style.display="none";
+    //     showError("Unable to connect. Please try again later.");
+    //     return;
+    // },10000);
     code = scnt;
     document.getElementById('joiner').style.display="none";
     document.getElementById('onGame').style.display='block'; 
@@ -244,6 +255,11 @@ function online()   //function to implement online multiplayer
 
 function host()     //function to allow to generate code and connect using it
 {
+    if(!navigator.onLine)
+    {
+        showError("You are not connected to internet.");
+        return;
+    }
     for(let i=1;i<=9;i++)
     {
         var str = "btn_" + i; 
@@ -252,13 +268,13 @@ function host()     //function to allow to generate code and connect using it
     }
     mode=1;
     code="";
-    to1 = setTimeout(()=>{
-        document.getElementById('onGame').style.display='none'; 
-        document.getElementById('mainMenu').style.display='block';
-        document.getElementById('overlay').style.display="none";
-        showError("Unable to connect. Please try again later.");
-        return;
-    },10000);   
+    // to1 = setTimeout(()=>{
+    //     document.getElementById('onGame').style.display='none'; 
+    //     document.getElementById('mainMenu').style.display='block';
+    //     document.getElementById('overlay').style.display="none";
+    //     showError("Unable to connect. Please try again later.");
+    //     return;
+    // },10000);   
     code_channel = 50 + Math.floor(Math.random() * 41);
     var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
     for(let ip = 1;ip<=3;ip++)
@@ -334,6 +350,11 @@ function host()     //function to allow to generate code and connect using it
 
 function join()     //function to implement join with others using code functionality
 {
+    if(!navigator.onLine)
+    {
+        showError("You are not connected to internet.");
+        return;
+    }
     for(let i=1;i<=9;i++)
     {
         var str = "btn_" + i; 
@@ -341,13 +362,13 @@ function join()     //function to implement join with others using code function
         document.getElementById(str).disabled = false;
     }
     mode=1;
-    to1 = setTimeout(()=>{
-        document.getElementById('onGame').style.display='none'; 
-        document.getElementById('mainMenu').style.display='block';
-        document.getElementById('overlay').style.display="none";
-        showError("Unable to connect. Please try again later.");
-        return;
-    },10000);
+    // to1 = setTimeout(()=>{
+    //     document.getElementById('onGame').style.display='none'; 
+    //     document.getElementById('mainMenu').style.display='block';
+    //     document.getElementById('overlay').style.display="none";
+    //     showError("Unable to connect. Please try again later.");
+    //     return;
+    // },10000);
     code = document.getElementById('joinCode').value;
     document.getElementById('onGame').style.display='block'; 
     document.getElementById('mainMenu').style.display='none';
