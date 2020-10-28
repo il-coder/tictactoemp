@@ -204,7 +204,9 @@ function online()   //function to implement online multiplayer
                 clearInterval(iv1);
                 if(userTime < oppTime)
                 {
-                    document.getElementById('overlay').style.display="none";
+                    setTimeout(()=>{
+                        document.getElementById('overlay').style.display="none";
+                    },1500);
                 }
                 else
                 {
@@ -256,7 +258,7 @@ function host()     //function to allow to generate code and connect using it
         document.getElementById('overlay').style.display="none";
         showError("Unable to connect. Please try again later.");
         return;
-    },10000);
+    },10000);   
     code_channel = 50 + Math.floor(Math.random() * 41);
     var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
     for(let ip = 1;ip<=3;ip++)
@@ -301,7 +303,9 @@ function host()     //function to allow to generate code and connect using it
                 clearInterval(iv1);
                 if(userTime < oppTime)
                 {
-                    document.getElementById('overlay').style.display="none";
+                    setTimeout(()=>{
+                        document.getElementById('overlay').style.display="none";
+                    },1500);
                 }
                 else
                 {
@@ -389,7 +393,9 @@ function join()     //function to implement join with others using code function
                 document.getElementById('joiner').innerHTML= "Room code is : "+code;
                 if(userTime < oppTime)
                 {
-                    document.getElementById('overlay').style.display="none";
+                    setTimeout(()=>{
+                        document.getElementById('overlay').style.display="none";
+                    },1500);
                 }
                 else
                 {
@@ -416,7 +422,7 @@ function join()     //function to implement join with others using code function
     }
 }
 
-function message()  //function for performing tasks based on message received
+function message()  //function for performing tasks based on message received   
 {
     socket.onmessage = function(e){
         var msg = JSON.parse(e.data);
@@ -466,7 +472,100 @@ function message()  //function for performing tasks based on message received
                         var str = "btn_" + i; 
                         document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
                         document.getElementById(str).disabled = false;
-                    }   
+                    }  
+                    if(mode==1)
+                    {
+                        iv1 = setInterval(()=>{
+                            console.log(playerCount);
+                            if(playerCount==1)
+                            {
+                                document.getElementById('overlay-msg').innerHTML="Waiting for Opponent to join";   
+                            }
+                            else if(playerCount==2)
+                            {
+                                document.getElementById('backbtn').style.display='none';
+                                clearInterval(iv1);
+                                document.getElementById('joiner').style.display="block";
+                                document.getElementById('joiner').innerHTML= "Room code is : "+code;
+                                if(userTime < oppTime)
+                                {
+                                    setTimeout(()=>{
+                                        document.getElementById('overlay').style.display="none";
+                                    },1500);
+                                }
+                                else
+                                {
+                                    document.getElementById('overlay-msg').innerHTML="Waiting for Opponent move";
+                                    document.getElementById('overlay').style.display="block";
+                                }
+                            }
+                            else
+                            {
+                                clearInterval(iv1);
+                                var msg={
+                                    type:"disconn",
+                                    id: code,
+                                    };
+                                socket.send(JSON.stringify(msg));
+                                play = 0;
+                                socket.close();
+                                document.getElementById('onGame').style.display='none'; 
+                                document.getElementById('mainMenu').style.display='block';
+                                document.getElementById('overlay').style.display="none";
+                                showError("Room is full");
+                            }
+                        },2500);            
+                    }
+                    else
+                    {
+                        iv1 = setInterval(()=>{
+                            console.log(playerCount);
+                            if(playerCount==1)
+                            {
+                                document.getElementById('overlay-msg').innerHTML="Waiting for Opponent to join";   
+                            }
+                            else if(playerCount==2)
+                            {
+                                document.getElementById('backbtn').style.display='none'; 
+                                clearInterval(iv1);
+                                if(userTime < oppTime)
+                                {
+                                    setTimeout(()=>{
+                                        document.getElementById('overlay').style.display="none";
+                                    },1500);
+                                }
+                                else
+                                {
+                                    document.getElementById('overlay-msg').innerHTML="Waiting for Opponent move";
+                                    document.getElementById('overlay').style.display="block";
+                                }
+                            }
+                            else
+                            {
+                                clearInterval(iv1);
+                                scnt+=1;
+                                var msg={
+                                    type:"disconn",
+                                    id: code,
+                                    };
+                                socket.send(JSON.stringify(msg));
+                                play = 0;
+                                socket.close();
+                                if(scnt>40)
+                                {
+                                    document.getElementById('backbtn').style.display='block';
+                                    document.getElementById('onGame').style.display='none'; 
+                                    document.getElementById('mainMenu').style.display='block';
+                                    document.getElementById('overlay').style.display="none";
+                                    showError("Room is full");
+                                    return;
+                                }
+                                socket.onclose = ()=>{
+                                    online();
+                                };
+                            }
+                        },2500);   
+                    } 
                 }
                 if(msg.choice==1)
                 {
@@ -512,6 +611,99 @@ function message()  //function for performing tasks based on message received
                     document.getElementById('backbtn').style.display = 'block';
                     document.getElementById('overlay-msg').innerHTML="Opponent disconnected. Waiting for Opponent to join";   
                     document.getElementById('overlay').style.display="block";
+                    if(mode==1)
+                    {
+                        iv1 = setInterval(()=>{
+                            console.log(playerCount);
+                            if(playerCount==1)
+                            {
+                                document.getElementById('overlay-msg').innerHTML="Waiting for Opponent to join";
+                            }
+                            else if(playerCount==2)
+                            {
+                                document.getElementById('backbtn').style.display='none';
+                                clearInterval(iv1);
+                                document.getElementById('joiner').style.display="block";
+                                document.getElementById('joiner').innerHTML= "Room code is : "+code;
+                                if(userTime < oppTime)
+                                {
+                                    setTimeout(()=>{
+                                        document.getElementById('overlay').style.display="none";
+                                    },1500);
+                                }
+                                else
+                                {
+                                    document.getElementById('overlay-msg').innerHTML="Waiting for Opponent move";
+                                    document.getElementById('overlay').style.display="block";
+                                }
+                            }
+                            else
+                            {
+                                clearInterval(iv1);
+                                var msg={
+                                    type:"disconn",
+                                    id: code,
+                                    };
+                                socket.send(JSON.stringify(msg));
+                                play = 0;
+                                socket.close();
+                                document.getElementById('onGame').style.display='none'; 
+                                document.getElementById('mainMenu').style.display='block';
+                                document.getElementById('overlay').style.display="none";
+                                showError("Room is full");
+                            }
+                        },2500);            
+                    }
+                    else
+                    {
+                        iv1 = setInterval(()=>{
+                            console.log(playerCount);
+                            if(playerCount==1)
+                            {
+                                document.getElementById('overlay-msg').innerHTML="Waiting for Opponent to join";   
+                            }
+                            else if(playerCount==2)
+                            {
+                                document.getElementById('backbtn').style.display='none'; 
+                                clearInterval(iv1);
+                                if(userTime < oppTime)
+                                {
+                                    setTimeout(()=>{
+                                        document.getElementById('overlay').style.display="none";
+                                    },1500);
+                                }
+                                else
+                                {
+                                    document.getElementById('overlay-msg').innerHTML="Waiting for Opponent move";
+                                    document.getElementById('overlay').style.display="block";
+                                }
+                            }
+                            else
+                            {
+                                clearInterval(iv1);
+                                scnt+=1;
+                                var msg={
+                                    type:"disconn",
+                                    id: code,
+                                    };
+                                socket.send(JSON.stringify(msg));
+                                play = 0;
+                                socket.close();
+                                if(scnt>40)
+                                {
+                                    document.getElementById('backbtn').style.display='block';
+                                    document.getElementById('onGame').style.display='none'; 
+                                    document.getElementById('mainMenu').style.display='block';
+                                    document.getElementById('overlay').style.display="none";
+                                    showError("Room is full");
+                                    return;
+                                }
+                                socket.onclose = ()=>{
+                                    online();
+                                };
+                            }
+                        },2500);   
+                    }
                 }
             }
         }
@@ -735,7 +927,9 @@ function playAgain()        //Function to implement play again functionality
                 clearInterval(iv1);
                 if(userTime < oppTime)
                 {
-                    document.getElementById('overlay').style.display="none";
+                    setTimeout(()=>{
+                        document.getElementById('overlay').style.display="none";
+                    },1500);
                 }
                 else
                 {
