@@ -3,7 +3,18 @@
     height: 300px;
     border: black 2px solid;
 }
+
 #mytable td {
+    border: black 2px solid;
+}
+
+#mytableLocal {
+    width: 300px;
+    height: 300px;
+    border: black 2px solid;
+}
+
+#mytableLocal td {
     border: black 2px solid;
 }
 
@@ -14,9 +25,8 @@
 }
 
 .cm {
-    margin-top: 5%;
+    /* margin-top: 5%; */
     margin-bottom: 5%;
-
 }
 
 .cm button {
@@ -60,6 +70,15 @@
     transform: translate(-15%,15%);
 }
 
+#backbtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotateZ(-180deg);;
+    z-index: 10000;
+    font-size: 25px;
+}
+
 #overlay {
     position: fixed;
     display: none;
@@ -73,6 +92,7 @@
     z-index: 9999;
     cursor: default;
 }
+
 #overlay-text {
     position: absolute;
     top: 90%;
@@ -82,23 +102,29 @@
     transform: translate(-50%,-85%);
     -ms-transform: translate(-50%,-70%)
 }
+
 #joiner {
     display: none;
     cursor: pointer;
 }
-.toast {
+
+#copier {
+    display: none;
     background-color: black;
     color: white;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
+    z-index: 10001;
 }
-.toast .toast-header{
+
+#copier .toast-header{
     background-color: black;
     color: white;
     font-size: 25px;
 }
+
 .overlay-anim {
     width: 100px;
     height: 100px;
@@ -108,4 +134,10 @@
     left: 50%;
     margin-top: -150px;
     margin-left: -50px;
+}
+
+#alert-msg {
+    background-color: #00ffb6;
+    color: black;
+    font-size: 20px;
 }

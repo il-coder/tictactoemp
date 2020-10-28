@@ -9,9 +9,6 @@
         <link rel="icon" href="ico.ico" type = "image/x-icon">
         <link rel="stylesheet" href="style.css">
         <title>Tic Tac Toe</title>
-        <style>
-            
-        </style>
     </head>
     <body>
         <div class="container-fluid" id="mainMenu">
@@ -34,13 +31,19 @@
                 </div>
             </div>
             <div class="row cm">
+                <div class='col-md-4 offset-md-4 text-center'>
+                    <div class="toast mx-auto" id='alert'>
+                        <div class="toast-header text-center" id='alert-msg'>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-4 offset-md-4 text-center">
                     <h1 class="text-center text-uppercase text-danger">Main menu</h1>
-                    <button class="btn btn-primary btn-block cm">Local Game</button>
+                    <button class="btn btn-primary btn-block cm" onclick="javascript:local();">Local Game</button>
                     <button class="btn btn-primary btn-block cm" onclick="javascript:online();">Online Game</button>
                     <button class="btn btn-primary btn-block cm" onclick="javascript:host();">Host Game</button>
                     <button class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#joinBox">Join Game</button>
-                    <button class="btn btn-primary btn-block cm">Help/Tutorial</button>
+                    <button class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#helpBox">Help/Tutorial</button>
                 </div>
             </div>
             <div class="modal fade" data-backdrop="static" id="joinBox">
@@ -59,6 +62,28 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" data-backdrop="static" id="helpBox">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color:#00ffb6;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">Help/Tutorial</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h5>There are 4 modes available :-</h5>
+                            <ul>
+                                <li><h6>Local Game :</h6>It is an offline mode desgined for those who want to play on same device. It is simulation of Pen & Paper version of Tic-Tac-Toe.</li>
+                                <li><h6>Online Game :</h6>This is an online mode in which you can play with random person playing at same time.</li>
+                                <li><h6>Host Game :</h6>This online mode creates a personal room with a code to play with friends. You can share your code with others and they can play with you using that code.</li>
+                                <li><h6>Join Game :</h6>This online mode provides option to join into someone else's room to play with him. Only 2 person can be there in a room at a time.</li>
+                            </ul>
+                            <h5>In case of any doubt/feedback, contact me at <br><a href="https://sites.google.com/view/igdownload/feedback" style="word-wrap: break-word;" target="_blank">https://sites.google.com/view/igdownload/feedback</a></h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="container-fluid" style="display: none;" id="onGame">
             <div id="overlay">
@@ -67,8 +92,9 @@
                     <p id="overlay-msg">Please wait.....Joining</p>
                     <a onclick="javscript:copyToClip();" id="joiner">Room Code is : </a>
                 </div>
-                <div class="toast">
-                    <div class="toast-header">
+                <button class="btn btn-primary" id="backbtn" onclick="javascript:mainMenu(0);">&#10149;</button>
+                <div class="toast" id='copier'>
+                    <div class="toast-header" id='copier-text'>
                         Code Copied to Clipboard
                     </div>
                 </div>
@@ -169,6 +195,104 @@
                                 <td><button class="btn mybtn" type="button" onclick="this.innerHTML='O'; this.disabled='true'; send_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
                             </tr>
                         </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" style="display: none;" id="offGame">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <h1 class="text-center text-uppercase cf">
+                            <div class="rot1">t</div>
+                            <div class="rot2">i</div>
+                            <div class="rot3">c</div>
+                            <div class="">-</div>
+                            <div class="rot2">t</div>
+                            <div class="rot3">a</div>
+                            <div class="rot1">c</div>
+                            <div class="">-</div>
+                            <div class="rot3">t</div>
+                            <div class="rot1">o</div>
+                            <div class="rot2">e</div>
+                        </h1>
+                    </div>
+                    <button type="button" class="btn btn-primary pbtn" data-toggle="modal" data-target="#pauseMenuLocal">&#9612;&#9612;</button>
+                </div>
+            </div>
+            <div class="modal fade" data-backdrop="static" id="pauseMenuLocal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #ebc934;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">game paused</h2>
+                        </div>
+                        <div class="modal-body">
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal">Resume</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#gameLogLocal">Match Log</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:mainMenuLocal();">Main Menu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" data-backdrop="static" id="gameOverLocal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #ebc934;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">game over</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="font-weight-bold lead text-center" id='overTitleLocal'></h1>
+                            <p class="font-italic font-weight-bolder lead text-center" id="overMsgLocal"></p>
+                            <button type="button" class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#gameLogLocal">Match Log</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javascript:playAgainLocal();">Play Again</button>
+                            <button type="button" class="btn btn-primary btn-block cm" data-dismiss="modal" onclick="javscript:mainMenuLocal();">Main Menu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" data-backdrop="static" id="gameLogLocal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #9ff5e4;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">game log</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div style="overflow-y: auto; width: auto; height: 300px;" id="gameLogLocalText">
+                                <p>Match Started</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <table class="table table-bordered" id="mytableLocal">
+                        <tbody>
+                            <tr>
+                                <td><button id="btn_1_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td><button id="btn_2_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td><button id="btn_3_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                            </tr>
+                            <tr>
+                                <td><button id="btn_4_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td><button id="btn_5_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td><button id="btn_6_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                            </tr>
+                            <tr>
+                                <td><button id="btn_7_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td><button id="btn_8_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td><button id="btn_9_local" class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                            </tr>
+                            <tr style="visibility: hidden; height: 1px;">
+                                <td><button class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td><button class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                                <td><button class="btn mybtn" type="button" onclick="play_move(this.id);">&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+                            </tr>
+                        </tbody>
+                        <p class="lead text-center font-weight-bold" id="turn"></p>
                     </table>
                 </div>
             </div>

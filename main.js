@@ -1,6 +1,159 @@
-var play = 0,playerCount=1,userTime,oppTime,userTime2,oppTime2;
-var socket,to1,iv1,scnt=21,code,code_channel,mode=0;
+/* Common variables */
+var mode=0;
+/* Online Variables */
+var socket,to1,iv1,scnt=21,code,code_channel,play = 0,playerCount=1,userTime,oppTime,userTime2,oppTime2;
 var log = document.getElementById('gameLogText');
+/* offline variables */
+var turn=1,cnt=1;
+var st = document.getElementById('turn');
+var localLog = document.getElementById('gameLogLocalText');
+
+function local()    //function to implement local game
+{
+    mode = 2;
+    document.getElementById('joiner').style.display="none";
+    document.getElementById('offGame').style.display='block'; 
+    document.getElementById('mainMenu').style.display='none';
+    if(turn==1)
+        st.innerHTML = "Player 1 turn";
+    else
+        st.innerHTML = "Player 2 turn";
+}
+
+function check_win_local()
+{
+    var btn1 = document.getElementById('btn_1_local').innerHTML;
+    var btn2 = document.getElementById('btn_2_local').innerHTML;
+    var btn3 = document.getElementById('btn_3_local').innerHTML;
+    var btn4 = document.getElementById('btn_4_local').innerHTML;
+    var btn5 = document.getElementById('btn_5_local').innerHTML;
+    var btn6 = document.getElementById('btn_6_local').innerHTML;
+    var btn7 = document.getElementById('btn_7_local').innerHTML;
+    var btn8 = document.getElementById('btn_8_local').innerHTML;
+    var btn9 = document.getElementById('btn_9_local').innerHTML;
+    var flag=0;
+    if(btn1==btn2 && btn2==btn3 && btn1!="&nbsp;&nbsp;&nbsp;&nbsp;")    //check for 1st row
+    {
+        if(btn1=="O")
+            flag=1;
+        else
+            flag=2;
+    }
+    else if(btn4==btn5 && btn5==btn6 && btn4!="&nbsp;&nbsp;&nbsp;&nbsp;")   //check for 2nd row
+    {
+        if(btn4=="O")
+            flag=1;
+        else
+            flag=2;
+    }
+    else if(btn7==btn8 && btn8==btn9 && btn7!="&nbsp;&nbsp;&nbsp;&nbsp;")   //check for 3rd row
+    {
+        if(btn7=="O")
+            flag=1;
+        else
+            flag=2;
+    }
+    else if(btn1==btn4 && btn1==btn7 && btn1!="&nbsp;&nbsp;&nbsp;&nbsp;") //check for 1st column
+    {
+        if(btn1=="O")
+            flag=1;
+        else
+            flag=2;
+    }
+    else if(btn2==btn5 && btn2==btn8 && btn2!="&nbsp;&nbsp;&nbsp;&nbsp;") //check for 2nd column
+    {
+        if(btn2=="O")
+            flag=1;
+        else
+            flag=2;
+    }
+    else if(btn3==btn6 && btn3==btn9 && btn3!="&nbsp;&nbsp;&nbsp;&nbsp;") //check for 3rd column
+    {
+        if(btn3=="O")
+            flag=1;
+        else
+            flag=2;
+    }
+    else if(btn1==btn5 && btn1==btn9 && btn1!="&nbsp;&nbsp;&nbsp;&nbsp;") //check for primary diagonal
+    {
+        if(btn1=="O")
+            flag=1;
+        else
+            flag=2;
+    }
+    else if(btn3==btn5 && btn3==btn7 && btn3!="&nbsp;&nbsp;&nbsp;&nbsp;") //check for secondary diagonal
+    {
+        if(btn3=="O")
+            flag=1;       
+        else
+            flag=2;
+    }
+    else if((btn1=="O" || btn1=="X") && (btn2=="O" || btn2=="X") && (btn3=="O" || btn3=="X") && (btn4=="O" || btn4=="X") && (btn5=="O" || btn5=="X") && (btn6=="O" || btn6=="X") && (btn7=="O" || btn7=="X") && (btn8=="O" || btn8=="X") && (btn9=="O" || btn9=="X"))
+    {
+        gameOverLocal("Match Draw!","Both players played optimally.");
+        localLog.innerHTML += "<p>Match Draw! Both players are at same level.</p>";
+    }
+    if(flag==1)
+    {
+        gameOverLocal("Player 1 Won!","Player 1 won the match defeating player 2.");
+        localLog.innerHTML += "<p>Player 1 Won! Player 1 defeated the opponent.</p>";
+    }
+    else if(flag==2)
+    {
+        gameOverLocal("Player 2 Won!","Player 2 won the match defeating player 1.");
+        localLog.innerHTML += "<p>Player 2 Won! Player 2 defeated the opponent.</p>";
+    }
+}
+
+function play_move(id)
+{
+    document.getElementById(id).disabled = true;
+    if(turn==1)
+    {
+        localLog.innerHTML += "<p>" + "Player 1 picked " + id.split("_")[1] + "</p>";
+        document.getElementById(id).innerHTML = "O";
+    }
+    else
+    {
+        localLog.innerHTML += "<p>" + "Player 2 picked " + id.split("_")[1] + "</p>";
+        document.getElementById(id).innerHTML = "X";
+    }
+    check_win_local();
+    cnt += 1;
+    turn = (turn % 2) + 1 ;
+    if(turn==1)
+        st.innerHTML = "Player 1 turn";
+    else
+        st.innerHTML = "Player 2 turn";
+}
+
+function playAgainLocal()
+{
+    localLog.innerHTML = "<p>Match Started</p>";
+    for(let i=1;i<=9;i++)
+    {
+        var str = "btn_" + i + '_local'; 
+        document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
+        document.getElementById(str).disabled = false;
+    }
+    turn = 1;
+    cnt = 1;
+    st.innerHTML = "Player 1 turn";
+}
+
+function gameOverLocal(title,msg)
+{
+    $("#gameOverLocal").modal();
+    document.getElementById('overMsgLocal').innerHTML = msg;
+    document.getElementById('overTitleLocal').innerHTML = title;
+}
+
+function mainMenuLocal()
+{
+    localLog.innerHTML = "<p>Match Started</p>";
+    document.getElementById('offGame').style.display='none'; 
+    document.getElementById('mainMenu').style.display='block';
+}
 
 function online()   //function to implement online multiplayer
 {
@@ -12,10 +165,10 @@ function online()   //function to implement online multiplayer
     }
     mode = 0;
     to1 = setTimeout(()=>{
-        window.alert("Unable to connect. Please try again later.");
         document.getElementById('onGame').style.display='none'; 
         document.getElementById('mainMenu').style.display='block';
         document.getElementById('overlay').style.display="none";
+        showError("Unable to connect. Please try again later.");
         return;
     },10000);
     code = scnt;
@@ -47,6 +200,7 @@ function online()   //function to implement online multiplayer
             }
             else if(playerCount==2)
             {
+                document.getElementById('backbtn').style.display='none'; 
                 clearInterval(iv1);
                 if(userTime < oppTime)
                 {
@@ -71,10 +225,11 @@ function online()   //function to implement online multiplayer
                 socket.close();
                 if(scnt>40)
                 {
-                    window.alert("Room is full");
+                    document.getElementById('backbtn').style.display='block';
                     document.getElementById('onGame').style.display='none'; 
                     document.getElementById('mainMenu').style.display='block';
                     document.getElementById('overlay').style.display="none";
+                    showError("Room is full");
                     return;
                 }
                 socket.onclose = ()=>{
@@ -96,10 +251,10 @@ function host()     //function to allow to generate code and connect using it
     mode=1;
     code="";
     to1 = setTimeout(()=>{
-        window.alert("Unable to connect. Please try again later.");
         document.getElementById('onGame').style.display='none'; 
         document.getElementById('mainMenu').style.display='block';
         document.getElementById('overlay').style.display="none";
+        showError("Unable to connect. Please try again later.");
         return;
     },10000);
     code_channel = 50 + Math.floor(Math.random() * 41);
@@ -142,6 +297,7 @@ function host()     //function to allow to generate code and connect using it
             }
             else if(playerCount==2)
             {
+                document.getElementById('backbtn').style.display='none';
                 clearInterval(iv1);
                 if(userTime < oppTime)
                 {
@@ -163,10 +319,10 @@ function host()     //function to allow to generate code and connect using it
                 socket.send(JSON.stringify(msg));
                 play = 0;
                 socket.close();
-                window.alert("Room is full");
                 document.getElementById('onGame').style.display='none'; 
                 document.getElementById('mainMenu').style.display='block';
                 document.getElementById('overlay').style.display="none";
+                showError("Room is full");
             }
         },2500);
     }
@@ -182,10 +338,10 @@ function join()     //function to implement join with others using code function
     }
     mode=1;
     to1 = setTimeout(()=>{
-        window.alert("Unable to connect. Please try again later.");
         document.getElementById('onGame').style.display='none'; 
         document.getElementById('mainMenu').style.display='block';
         document.getElementById('overlay').style.display="none";
+        showError("Unable to connect. Please try again later.");
         return;
     },10000);
     code = document.getElementById('joinCode').value;
@@ -220,13 +376,14 @@ function join()     //function to implement join with others using code function
                 socket.send(JSON.stringify(msg));
                 play = 0;
                 socket.close();
-                window.alert("Invalid Join Code");
                 document.getElementById('onGame').style.display='none'; 
                 document.getElementById('mainMenu').style.display='block';
                 document.getElementById('overlay').style.display="none";
+                showError("Invalid Join Code");
             }
             else if(playerCount==2)
             {
+                document.getElementById('backbtn').style.display='none';
                 clearInterval(iv1);
                 document.getElementById('joiner').style.display="block";
                 document.getElementById('joiner').innerHTML= "Room code is : "+code;
@@ -250,10 +407,10 @@ function join()     //function to implement join with others using code function
                 socket.send(JSON.stringify(msg));
                 play = 0;
                 socket.close();
-                window.alert("Room is full");
                 document.getElementById('onGame').style.display='none'; 
                 document.getElementById('mainMenu').style.display='block';
                 document.getElementById('overlay').style.display="none";
+                showError("Room is full");
             }
         },2500);
     }
@@ -318,6 +475,7 @@ function message()  //function for performing tasks based on message received
                 }
                 else
                 {
+                    document.getElementById('backbtn').style.display = 'block';
                     document.getElementById('overlay-msg').innerHTML="Opponent disconnected. Waiting for Opponent to join";   
                     document.getElementById('overlay').style.display="block";
                 }
@@ -351,6 +509,7 @@ function message()  //function for performing tasks based on message received
                         document.getElementById(str).innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;";
                         document.getElementById(str).disabled = false;
                     }
+                    document.getElementById('backbtn').style.display = 'block';
                     document.getElementById('overlay-msg').innerHTML="Opponent disconnected. Waiting for Opponent to join";   
                     document.getElementById('overlay').style.display="block";
                 }
@@ -359,7 +518,6 @@ function message()  //function for performing tasks based on message received
     }
 
     socket.onerror=()=>{
-        window.alert("Network Error Occurred. Please check your connection and try again later.");
         var msg={
             type:"disconn",
             id: code,
@@ -369,6 +527,7 @@ function message()  //function for performing tasks based on message received
         document.getElementById('onGame').style.display='none'; 
         document.getElementById('mainMenu').style.display='block';
         document.getElementById('overlay').style.display="none";
+        showError("Network Error Occurred. Please check your connection and try again later.");
     }
 }
 
@@ -523,11 +682,12 @@ function mainMenu(ch)     //Function to go to main menu and quit the match
         id: code,
         };
     socket.send(JSON.stringify(msg));
+    socket.close();
     play = 0;
     document.getElementById('overlay-msg').innerHTML="Please wait.....Joining";
     document.getElementById('onGame').style.display='none'; 
+    document.getElementById('backbtn').style.display='block'; 
     document.getElementById('mainMenu').style.display='block';
-    socket.close();
 }
 
 function forfeit()      //Function to forfeit the match
@@ -571,6 +731,7 @@ function playAgain()        //Function to implement play again functionality
             }
             else if(playerCount==2)
             {
+                document.getElementById('backbtn').style.display='none';
                 clearInterval(iv1);
                 if(userTime < oppTime)
                 {
@@ -595,10 +756,10 @@ function playAgain()        //Function to implement play again functionality
                 socket.close();
                 if(scnt>40)
                 {
-                    window.alert("Room is full");
                     document.getElementById('onGame').style.display='none'; 
                     document.getElementById('mainMenu').style.display='block';
                     document.getElementById('overlay').style.display="none";
+                    showError("Room is full");
                     return;
                 }
                 socket.onclose = ()=>{
@@ -638,13 +799,24 @@ function playAgain()        //Function to implement play again functionality
 
 function copyToClip()       //function to copy content to clipboard
 {
+    document.getElementById('copier').style.display = 'block';
     navigator.clipboard.writeText("I challenge you to beat me in TIC-TAC-TOE. Join using this code : "+code).then(function() {
-        $('.toast').innerHTML = "Code copied to clipboard.";
+        document.getElementById('copier-text').innerHTML = "Code copied to clipboard.";
     }, function() {
-        $('.toast').innerHTML = "Can't copy code to clipboard.";
+        document.getElementById('copier-text').innerHTML = "Can't copy code to clipboard.";
     });
-    $('.toast').toast({delay: 2000});
-    $('.toast').toast('show');
+    $('#copier').toast({delay: 2000});
+    $('#copier').toast('show');
+    setTimeout(()=>{
+        document.getElementById('copier').style.display = 'none';
+    },2000);
+}
+
+function showError(msg)
+{
+    document.getElementById('alert-msg').innerHTML = msg;
+    $('#alert').toast({delay: 4000});
+    $('#alert').toast('show');
 }
 
 window.onload = ()=>{
