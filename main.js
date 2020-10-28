@@ -898,7 +898,8 @@ function mainMenu(ch)     //Function to go to main menu and quit the match
     socket.close();
     play = 0;
     document.getElementById('overlay-msg').innerHTML="Please wait.....Joining";
-    document.getElementById('onGame').style.display='none'; 
+    document.getElementById('onGame').style.display='none';
+    document.getElementById('overlay').style.display='none'; 
     document.getElementById('backbtn').style.display='block'; 
     document.getElementById('mainMenu').style.display='block';
 }
