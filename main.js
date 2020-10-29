@@ -217,7 +217,7 @@ function online()   //function to implement online multiplayer
                 {
                     setTimeout(()=>{
                         document.getElementById('overlay').style.display="none";
-                    },1500);
+                    },2500);
                 }
                 else
                 {
@@ -321,7 +321,7 @@ function host()     //function to allow to generate code and connect using it
                 {
                     setTimeout(()=>{
                         document.getElementById('overlay').style.display="none";
-                    },1500);
+                    },2500);
                 }
                 else
                 {
@@ -416,7 +416,7 @@ function join()     //function to implement join with others using code function
                 {
                     setTimeout(()=>{
                         document.getElementById('overlay').style.display="none";
-                    },1500);
+                    },2500);
                 }
                 else
                 {
@@ -512,7 +512,7 @@ function message()  //function for performing tasks based on message received
                                 {
                                     setTimeout(()=>{
                                         document.getElementById('overlay').style.display="none";
-                                    },1500);
+                                    },2500);
                                 }
                                 else
                                 {
@@ -553,7 +553,7 @@ function message()  //function for performing tasks based on message received
                                 {
                                     setTimeout(()=>{
                                         document.getElementById('overlay').style.display="none";
-                                    },1500);
+                                    },2500);
                                 }
                                 else
                                 {
@@ -650,7 +650,7 @@ function message()  //function for performing tasks based on message received
                                 {
                                     setTimeout(()=>{
                                         document.getElementById('overlay').style.display="none";
-                                    },1500);
+                                    },2500);
                                 }
                                 else
                                 {
@@ -691,7 +691,7 @@ function message()  //function for performing tasks based on message received
                                 {
                                     setTimeout(()=>{
                                         document.getElementById('overlay').style.display="none";
-                                    },1500);
+                                    },2500);
                                 }
                                 else
                                 {
@@ -894,6 +894,7 @@ function mainMenu(ch)     //Function to go to main menu and quit the match
         choice: ch,
         id: code,
         };
+    clearInterval(iv1);
     socket.send(JSON.stringify(msg));
     socket.close();
     play = 0;
@@ -951,7 +952,7 @@ function playAgain()        //Function to implement play again functionality
                 {
                     setTimeout(()=>{
                         document.getElementById('overlay').style.display="none";
-                    },1500);
+                    },2500);
                 }
                 else
                 {
