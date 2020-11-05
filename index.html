@@ -40,10 +40,28 @@
                 <div class="col-md-4 offset-md-4 text-center">
                     <h1 class="text-center text-uppercase text-danger">Main menu</h1>
                     <button class="btn btn-primary btn-block cm" onclick="javascript:local();">Local Game</button>
+                    <button class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#diffSelect">Play against Computer</button>
                     <button class="btn btn-primary btn-block cm" onclick="javascript:online();">Online Game</button>
                     <button class="btn btn-primary btn-block cm" onclick="javascript:host();">Host Game</button>
                     <button class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#joinBox">Join Game</button>
                     <button class="btn btn-primary btn-block cm" data-toggle="modal" data-target="#helpBox">Help/Tutorial</button>
+                </div>
+            </div>
+            <div class="modal fade" data-backdrop="static" id="diffSelect">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content"  style="background-color: #ebc934;" >
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title text-uppercase text-center" style="margin: auto;">Select Difficulty</h2>
+                        </div>
+                        <div class="modal-body d-flex justify-content-around">
+                            <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal" onclick="javascript:computer(1);">Easy</button>
+                            <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal" onclick="javascript:computer(5);">Medium</button>
+                            <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal" onclick="javascript:computer(10);">Hard</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal fade" data-backdrop="static" id="joinBox">
@@ -69,9 +87,10 @@
                             <h2 class="modal-title text-uppercase text-center" style="margin: auto;">Help/Tutorial</h2>
                         </div>
                         <div class="modal-body">
-                            <h5>There are 4 modes available :-</h5>
+                            <h5>There are 5 modes available :-</h5>
                             <ul>
-                                <li><h6>Local Game :</h6>It is an offline mode desgined for those who want to play on same device. It is simulation of Pen & Paper version of Tic-Tac-Toe.</li>
+                                <li><h6>Local Game :</h6>It is a two player offline mode desgined for those who want to play on same device. It is simulation of Pen & Paper version of Tic-Tac-Toe.</li>
+                                <li><h6>Play against Computer :</h6>It is a single player offline mode. In this mode a player can play against computer in 3 difficulties level.</li>
                                 <li><h6>Online Game :</h6>This is an online mode in which you can play with random person playing at same time.</li>
                                 <li><h6>Host Game :</h6>This online mode creates a personal room with a code to play with friends. You can share your code with others and they can play with you using that code.</li>
                                 <li><h6>Join Game :</h6>This online mode provides option to join into someone else's room to play with him. Only 2 person can be there in a room at a time.</li>
@@ -200,6 +219,12 @@
             </div>
         </div>
         <div class="container-fluid" style="display: none;" id="offGame">
+            <div id="overlay1">
+                <div class="spinner-border text-warning overlay-anim"></div>
+                <div class="col-md-12 text-center" id="overlay-text-1">
+                    <p>Computer turn</p>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center">
