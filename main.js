@@ -92,6 +92,15 @@ function computer(level)    //function to implement game against computer
         cInv = setInterval(()=>{
             if(turn==1)
             {
+                var btn1 = document.getElementById('btn_1_local').innerHTML;
+                var btn2 = document.getElementById('btn_2_local').innerHTML;
+                var btn3 = document.getElementById('btn_3_local').innerHTML;
+                var btn4 = document.getElementById('btn_4_local').innerHTML;
+                var btn5 = document.getElementById('btn_5_local').innerHTML;
+                var btn6 = document.getElementById('btn_6_local').innerHTML;
+                var btn7 = document.getElementById('btn_7_local').innerHTML;
+                var btn8 = document.getElementById('btn_8_local').innerHTML;
+                var btn9 = document.getElementById('btn_9_local').innerHTML;
                 var move = "btn_" + get_optimal_win() + "_local";
                 var move1 = "btn_" + get_optimal_block() + "_local";
                 if(move!="btn_-1_local" && document.getElementById(move).innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
