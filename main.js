@@ -8,7 +8,7 @@ var turn=1,cnt=1;
 var st = document.getElementById('turn');
 var localLog = document.getElementById('gameLogLocalText');
 /* play with computer variable */
-var oppM=1,cInv,whoFirst,flag=0,difficulty;
+var oppM=1,cInv,whoFirst,flag=0,difficulty,firstMove;
 
 function computer(level)    //function to implement game against computer
 {
@@ -43,8 +43,8 @@ function computer(level)    //function to implement game against computer
         cInv = setInterval(()=>{
             if(turn==1)
             {
-                var move = "btn_" + get_optimal_win() + "_local";
-                var move1 = "btn_" + get_optimal_block() + "_local";
+                var move = "btn_" + get_optimal_move("O") + "_local";
+                var move1 = "btn_" + get_optimal_move("X") + "_local";
                 if(move!="btn_-1_local" && document.getElementById(move).innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
                 {
                     // console.log("optimal win");
@@ -101,8 +101,8 @@ function computer(level)    //function to implement game against computer
                 var btn7 = document.getElementById('btn_7_local').innerHTML;
                 var btn8 = document.getElementById('btn_8_local').innerHTML;
                 var btn9 = document.getElementById('btn_9_local').innerHTML;
-                var move = "btn_" + get_optimal_win() + "_local";
-                var move1 = "btn_" + get_optimal_block() + "_local";
+                var move = "btn_" + get_optimal_move("O") + "_local";
+                var move1 = "btn_" + get_optimal_move("X") + "_local";
                 if(move!="btn_-1_local" && document.getElementById(move).innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
                 {
                     // console.log("optimal win");
@@ -179,7 +179,7 @@ function computer(level)    //function to implement game against computer
     }
     else
     {
-        if(random<=8)
+        if(random<=7)
         {
             document.getElementById("overlay1").style.display="block";
             turn = 1;
@@ -197,13 +197,13 @@ function computer(level)    //function to implement game against computer
             {
                 if(cnt==1)
                 {
-                    document.getElementById('btn_5_local').click();
+                    firstMove = play_random_choice([1,5,7,5,9,5,3,5]);
                 }
                 else if(cnt==2)
                 {
                     if(oppM==5)
                     {
-                        document.getElementById('btn_1_local').click();
+                        play_random_choice([1,3,7,9]);
                     }
                     else
                     {
@@ -212,8 +212,8 @@ function computer(level)    //function to implement game against computer
                 }
                 else if(whoFirst == 1)
                 {
-                    var move = "btn_" + get_optimal_win() + "_local";
-                    var move1 = "btn_" + get_optimal_block() + "_local";
+                    var move = "btn_" + get_optimal_move("O") + "_local";
+                    var move1 = "btn_" + get_optimal_move("X") + "_local";
                     flag=0;
                     if(move!="btn_-1_local" && document.getElementById(move).innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
                     {
@@ -227,59 +227,145 @@ function computer(level)    //function to implement game against computer
                         flag=1;
                         document.getElementById(move1).click();
                     }
+                    else if(cnt==3 && firstMove != 5 && oppM != 5)
+                    {
+                        if(firstMove == 7 && (oppM==1 || oppM==4 || oppM==3 || oppM ==6 || oppM==2))
+                        {
+                            flag=1;
+                            document.getElementById("btn_9_local").click();
+                        }
+                        else if(firstMove == 7 && (oppM==8 || oppM==9))
+                        {
+                            flag=1;
+                            document.getElementById("btn_1_local").click();
+                        }
+                        else if(firstMove == 1 && (oppM==4 || oppM==7 || oppM==9 || oppM ==6 || oppM==8))
+                        {
+                            flag=1;
+                            document.getElementById("btn_3_local").click();
+                        }
+                        else if(firstMove == 1 && (oppM==2 || oppM==3))
+                        {
+                            flag=1;
+                            document.getElementById("btn_7_local").click();
+                        }
+                        else if(firstMove == 3 && (oppM==4 || oppM==7 || oppM==9 || oppM ==6 || oppM==8))
+                        {
+                            flag=1;
+                            document.getElementById("btn_1_local").click();
+                        }
+                        else if(firstMove == 3 && (oppM==2 || oppM==1))
+                        {
+                            flag=1;
+                            document.getElementById("btn_9_local").click();
+                        }
+                        else if(firstMove == 9 && (oppM==1 || oppM==4 || oppM==3 || oppM ==6 || oppM==2))
+                        {
+                            flag=1;
+                            document.getElementById("btn_7_local").click();
+                        }
+                        else if(firstMove == 9 && (oppM==7 || oppM==8))
+                        {
+                            flag=1;
+                            document.getElementById("btn_3_local").click();
+                        }
+                    }
+                    else if(cnt==3 && firstMove != 5 && oppM == 5)
+                    {
+                        if(firstMove == 7)
+                        {
+                            flag=1;
+                            document.getElementById("btn_3_local").click();
+                        }
+                        else if(firstMove==3)
+                        {
+                            flag=1;
+                            document.getElementById("btn_7_local").click();
+                        }
+                        else if(firstMove==1)
+                        {
+                            flag=1;
+                            document.getElementById("btn_9_local").click();
+                        }
+                        else if(firstMove==9)
+                        {
+                            flag=1;
+                            document.getElementById("btn_1_local").click();
+                        }
+                    }
+                    else if(cnt==5 && firstMove != 5)
+                    {
+                        var btn1 = document.getElementById('btn_1_local').innerHTML;
+                        var btn2 = document.getElementById('btn_2_local').innerHTML;
+                        var btn3 = document.getElementById('btn_3_local').innerHTML;
+                        var btn4 = document.getElementById('btn_4_local').innerHTML;
+                        var btn5 = document.getElementById('btn_5_local').innerHTML;
+                        var btn6 = document.getElementById('btn_6_local').innerHTML;
+                        var btn7 = document.getElementById('btn_7_local').innerHTML;
+                        var btn8 = document.getElementById('btn_8_local').innerHTML;
+                        var btn9 = document.getElementById('btn_9_local').innerHTML;
+                        if(btn7=="O" && btn8=="X" && btn9=="O")
+                        {
+                            if(btn4=="X" || btn1=="X")
+                            {
+                                play_random_choice([3,5]);
+                            }
+                            else if(btn3=="X" || btn6=="X")
+                            {
+                                play_random_choice([1,5]);
+                            }
+                        }
+                        else if(btn1=="O" && btn2=="X" && btn3=="O")
+                        {
+                            if(btn4=="X" || btn7=="X")
+                            {
+                                play_random_choice([9,5]);
+                            }
+                            else if(btn6=="X" || btn9=="X")
+                            {
+                                play_random_choice([7,5]);
+                            }
+                        }
+                        else if(btn1=="O" && btn4=="X" && btn7=="O")
+                        {
+                            if(btn2=="X" || btn3=="X")
+                            {
+                                play_random_choice([9,5]);
+                            }
+                            else if(btn8=="X" || btn9=="X")
+                            {
+                                play_random_choice([3,5]);
+                            }
+                        }
+                        else if(btn3=="O" && btn6=="X" && btn9=="O")
+                        {
+                            if(btn2=="X" || btn1=="X")
+                            {
+                                play_random_choice([7,5]);
+                            }
+                            else if(btn8=="X" || btn7=="X")
+                            {
+                                play_random_choice([1,5]);
+                            }
+                        }
+                    }
                     else if(oppM%2==0)
                     {
                         if(oppM==2)
                         {
-                            if(document.getElementById("btn_7_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                document.getElementById('btn_7_local').click();
-                                flag=1;
-                            }
-                            else if(document.getElementById("btn_9_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                document.getElementById('btn_9_local').click();
-                                flag=1;
-                            }
+                            play_random_choice([7,9]);
                         }
                         else if(oppM==4)
                         {
-                            if(document.getElementById("btn_3_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                document.getElementById('btn_3_local').click();
-                                flag=1;
-                            }
-                            else if(document.getElementById("btn_9_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                document.getElementById('btn_9_local').click();
-                                flag=1;
-                            }
+                            play_random_choice([3,9]);
                         }
                         else if(oppM==6)
                         {
-                            if(document.getElementById("btn_1_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                document.getElementById('btn_1_local').click();
-                                flag=1;
-                            }
-                            else if(document.getElementById("btn_7_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                document.getElementById('btn_7_local').click();
-                                flag=1;
-                            }
+                            play_random_choice([7,1]);
                         }
                         else if(oppM==8)
                         {
-                            if(document.getElementById("btn_3_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                document.getElementById('btn_3_local').click();
-                                flag=1;
-                            }
-                            else if(document.getElementById("btn_1_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                document.getElementById('btn_1_local').click();
-                                flag=1;
-                            }
+                            play_random_choice([1,3]);
                         }
                     }
                     else if(oppM==7 && document.getElementById("btn_3_local").innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -305,6 +391,7 @@ function computer(level)    //function to implement game against computer
                     if(flag==0)
                     {
                         var arr = [];
+                        console.log("Random");
                         for(let i=1;i<=9;i++)
                         {
                             var str = "btn_" + i + "_local";
@@ -329,8 +416,8 @@ function computer(level)    //function to implement game against computer
                     var btn7 = document.getElementById('btn_7_local').innerHTML;
                     var btn8 = document.getElementById('btn_8_local').innerHTML;
                     var btn9 = document.getElementById('btn_9_local').innerHTML;
-                    var move = "btn_" + get_optimal_win() + "_local";
-                    var move1 = "btn_" + get_optimal_block() + "_local";
+                    var move = "btn_" + get_optimal_move("O") + "_local";
+                    var move1 = "btn_" + get_optimal_move("X") + "_local";
                     flag=0;
                     if(move!="btn_-1_local" && document.getElementById(move).innerHTML == "&nbsp;&nbsp;&nbsp;&nbsp;")
                     {
@@ -344,500 +431,77 @@ function computer(level)    //function to implement game against computer
                         flag=1;
                         document.getElementById(move1).click();
                     }
-                    else if(btn4==btn8 && btn4=='X' && btn5=='O' && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 1
+                    else if(btn4==btn8 && btn4=='X' && btn5=='O')   //case 1
                     {
-                        flag=1;
-                        document.getElementById("btn_7_local").click();
+                        play_random_choice([7,1,9]);
                     }
-                    else if(btn4==btn8 && btn4=='X' && btn5=='O' && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 1
+                    else if(btn6==btn8 && btn6=='X' && btn5=='O')   //case 2
                     {
-                        flag=1;
-                        document.getElementById("btn_1_local").click();
+                        play_random_choice([7,3,9]);
                     }
-                    else if(btn4==btn8 && btn4=='X' && btn5=='O' && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 1
+                    else if(btn2==btn6 && btn6=='X' && btn5=='O')   //case 3
                     {
-                        flag=1;
-                        document.getElementById("btn_9_local").click();
+                        play_random_choice([3,1,9]);
                     }
-                    else if(btn6==btn8 && btn6=='X' && btn5=='O' && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 2
+                    else if(btn2==btn4 && btn4=='X' && btn5=='O')   //case 4
                     {
-                        flag=1;
-                        document.getElementById("btn_9_local").click();
+                        play_random_choice([7,1,3]);
                     }
-                    else if(btn6==btn8 && btn6=='X' && btn5=='O' && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 2
+                    else if(btn2=="X" && btn8=="X" && btn5=="O")    //case 5 XOX
                     {
-                        flag=1;
-                        document.getElementById("btn_7_local").click();
+                        play_random_choice([7,1,9,3]);
                     }
-                    else if(btn6==btn8 && btn6=='X' && btn5=='O' && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 2
+                    else if(btn1=="O" && btn9=="X" && btn5=="X")    //case 6 OXX
                     {
-                        flag=1;
-                        document.getElementById("btn_3_local").click();
+                        play_random_choice([7,3]);
                     }
-                    else if(btn2==btn6 && btn6=='X' && btn5=='O' && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 3
+                    else if(btn9=="O" && btn1=="X" && btn5=="X")    //case 7 XXO
                     {
-                        flag=1;
-                        document.getElementById("btn_3_local").click();
+                        play_random_choice([7,3]);
                     }
-                    else if(btn2==btn6 && btn6=='X' && btn5=='O' && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 3
+                    else if(btn3=="O" && btn7=="X" && btn5=="X")    //case 8 OXX
                     {
-                        flag=1;
-                        document.getElementById("btn_1_local").click();
+                        play_random_choice([1,9]);
                     }
-                    else if(btn2==btn6 && btn6=='X' && btn5=='O' && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 3
+                    else if(btn7=="O" && btn3=="X" && btn5=="X")    //case 9 XXO
                     {
-                        flag=1;
-                        document.getElementById("btn_9_local").click();
-                    }
-                    else if(btn2==btn4 && btn4=='X' && btn5=='O' && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 4
-                    {
-                        flag=1;
-                        document.getElementById("btn_1_local").click();
-                    }
-                    else if(btn2==btn4 && btn4=='X' && btn5=='O' && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 4
-                    {
-                        flag=1;
-                        document.getElementById("btn_3_local").click();
-                    }
-                    else if(btn2==btn4 && btn4=='X' && btn5=='O' && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")   //case 4
-                    {
-                        flag=1;
-                        document.getElementById("btn_7_local").click();
-                    }
-                    else if(btn2=="X" && btn8=="X" && btn5=="O" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 5 XOX
-                    {
-                        flag=1;
-                        document.getElementById("btn_7_local").click();
-                    }
-                    else if(btn2=="X" && btn8=="X" && btn5=="O" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 5 XOX
-                    {
-                        flag=1;
-                        document.getElementById("btn_1_local").click();
-                    }
-                    else if(btn2=="X" && btn8=="X" && btn5=="O" && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 5 XOX
-                    {
-                        flag=1;
-                        document.getElementById("btn_3_local").click();
-                    }
-                    else if(btn2=="X" && btn8=="X" && btn5=="O" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 5 XOX
-                    {
-                        flag=1;
-                        document.getElementById("btn_9_local").click();
-                    }
-                    else if(btn1=="O" && btn9=="X" && btn5=="X" && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 6 OXX
-                    {
-                        flag=1;
-                        document.getElementById("btn_3_local").click();
-                    }
-                    else if(btn1=="O" && btn9=="X" && btn5=="X" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 6 OXX
-                    {
-                        flag=1;
-                        document.getElementById("btn_7_local").click();
-                    }
-                    else if(btn9=="O" && btn1=="X" && btn5=="X" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 7 XXO
-                    {
-                        flag=1;
-                        document.getElementById("btn_7_local").click();
-                    }
-                    else if(btn9=="O" && btn1=="X" && btn5=="X" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 7 XXO
-                    {
-                        flag=1;
-                        document.getElementById("btn_3_local").click();
-                    }
-                    else if(btn3=="O" && btn7=="X" && btn5=="X" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 8 OXX
-                    {
-                        flag=1;
-                        document.getElementById("btn_1_local").click();
-                    }
-                    else if(btn3=="O" && btn7=="X" && btn5=="X" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 8 OXX
-                    {
-                        flag=1;
-                        document.getElementById("btn_9_local").click();
-                    }
-                    else if(btn7=="O" && btn3=="X" && btn5=="X" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 9 XXO
-                    {
-                        flag=1;
-                        document.getElementById("btn_9_local").click();
-                    }
-                    else if(btn7=="O" && btn3=="X" && btn5=="X" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")    //case 9 XXO
-                    {
-                        flag=1;
-                        document.getElementById("btn_1_local").click();
+                        play_random_choice([9,1]);
                     }
                     else if( (btn7=="X" && btn3=="X" && btn5=="O") || (btn9=="X" && btn1=="X" && btn5=="O"))    //case 10 XOX
                     {
-                        if(btn2=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById("btn_2_local").click();
-                        }
-                        else if(btn4=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById("btn_4_local").click();
-                        }
-                        else if(btn6=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById("btn_6_local").click();
-                        }
-                        else if(btn8=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById("btn_8_local").click();
-                        }
+                        play_random_choice([2,4,6,8]);
                     }
                     else if(btn4=="X" && btn9=="X" && btn5=="O")    //case 11
                     {
-                        var arr=[2,1,8,7];
-                        var ch = Math.floor(Math.random() * arr.length);   
-                        move = "btn_" + arr[ch] + "_local";
-                        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById(move).click();   
-                        }
-                        else
-                        {
-                            arr.splice(ch,1);
-                            ch = Math.floor(Math.random() * arr.length);   
-                            move = "btn_" + arr[ch] + "_local";
-                            if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                flag=1;
-                                document.getElementById(move).click();   
-                            }
-                            else
-                            {
-                                arr.splice(ch,1);
-                                ch = Math.floor(Math.random() * arr.length);   
-                                move = "btn_" + arr[ch] + "_local";
-                                if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                {
-                                    flag=1;
-                                    document.getElementById(move).click();   
-                                }
-                                else
-                                {
-                                    arr.splice(ch,1);
-                                    ch = Math.floor(Math.random() * arr.length);   
-                                    move = "btn_" + arr[ch] + "_local";
-                                    if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                    {
-                                        flag=1;
-                                        document.getElementById(move).click();   
-                                    }
-                                }
-                            }
-                        }
+                        play_random_choice([2,1,8,7]);
                     }
                     else if(btn2=="X" && btn9=="X" && btn5=="O")    //case 12
                     {
-                        var arr=[3,1,6,4];
-                        var ch = Math.floor(Math.random() * arr.length);   
-                        move = "btn_" + arr[ch] + "_local";
-                        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById(move).click();   
-                        }
-                        else
-                        {
-                            arr.splice(ch,1);
-                            ch = Math.floor(Math.random() * arr.length);   
-                            move = "btn_" + arr[ch] + "_local";
-                            if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                flag=1;
-                                document.getElementById(move).click();   
-                            }
-                            else
-                            {
-                                arr.splice(ch,1);
-                                ch = Math.floor(Math.random() * arr.length);   
-                                move = "btn_" + arr[ch] + "_local";
-                                if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                {
-                                    flag=1;
-                                    document.getElementById(move).click();   
-                                }
-                                else
-                                {
-                                    arr.splice(ch,1);
-                                    ch = Math.floor(Math.random() * arr.length);   
-                                    move = "btn_" + arr[ch] + "_local";
-                                    if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                    {
-                                        flag=1;
-                                        document.getElementById(move).click();   
-                                    }
-                                }
-                            }
-                        }
+                        play_random_choice([3,1,6,4]);
                     }
                     else if(btn6=="X" && btn7=="X" && btn5=="O")    //case 13
                     {
-                        var arr=[3,2,8,9];
-                        var ch = Math.floor(Math.random() * arr.length);   
-                        move = "btn_" + arr[ch] + "_local";
-                        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById(move).click();   
-                        }
-                        else
-                        {
-                            arr.splice(ch,1);
-                            ch = Math.floor(Math.random() * arr.length);   
-                            move = "btn_" + arr[ch] + "_local";
-                            if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                flag=1;
-                                document.getElementById(move).click();   
-                            }
-                            else
-                            {
-                                arr.splice(ch,1);
-                                ch = Math.floor(Math.random() * arr.length);   
-                                move = "btn_" + arr[ch] + "_local";
-                                if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                {
-                                    flag=1;
-                                    document.getElementById(move).click();   
-                                }
-                                else
-                                {
-                                    arr.splice(ch,1);
-                                    ch = Math.floor(Math.random() * arr.length);   
-                                    move = "btn_" + arr[ch] + "_local";
-                                    if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                    {
-                                        flag=1;
-                                        document.getElementById(move).click();   
-                                    }
-                                }
-                            }
-                        }
+                        play_random_choice([3,2,8,9]);
                     }
                     else if(btn2=="X" && btn7=="X" && btn5=="O")    //case 14
                     {
-                        var arr=[3,1,4,6];
-                        var ch = Math.floor(Math.random() * arr.length);   
-                        move = "btn_" + arr[ch] + "_local";
-                        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById(move).click();   
-                        }
-                        else
-                        {
-                            arr.splice(ch,1);
-                            ch = Math.floor(Math.random() * arr.length);   
-                            move = "btn_" + arr[ch] + "_local";
-                            if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                flag=1;
-                                document.getElementById(move).click();   
-                            }
-                            else
-                            {
-                                arr.splice(ch,1);
-                                ch = Math.floor(Math.random() * arr.length);   
-                                move = "btn_" + arr[ch] + "_local";
-                                if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                {
-                                    flag=1;
-                                    document.getElementById(move).click();   
-                                }
-                                else
-                                {
-                                    arr.splice(ch,1);
-                                    ch = Math.floor(Math.random() * arr.length);   
-                                    move = "btn_" + arr[ch] + "_local";
-                                    if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                    {
-                                        flag=1;
-                                        document.getElementById(move).click();   
-                                    }
-                                }
-                            }
-                        }
+                        play_random_choice([3,1,4,6]);
                     }
                     else if(btn1=="X" && btn8=="X" && btn5=="O")    //case 15
                     {
-                        var arr=[6,4,9,7];
-                        var ch = Math.floor(Math.random() * arr.length);   
-                        move = "btn_" + arr[ch] + "_local";
-                        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById(move).click();   
-                        }
-                        else
-                        {
-                            arr.splice(ch,1);
-                            ch = Math.floor(Math.random() * arr.length);   
-                            move = "btn_" + arr[ch] + "_local";
-                            if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                flag=1;
-                                document.getElementById(move).click();   
-                            }
-                            else
-                            {
-                                arr.splice(ch,1);
-                                ch = Math.floor(Math.random() * arr.length);   
-                                move = "btn_" + arr[ch] + "_local";
-                                if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                {
-                                    flag=1;
-                                    document.getElementById(move).click();   
-                                }
-                                else
-                                {
-                                    arr.splice(ch,1);
-                                    ch = Math.floor(Math.random() * arr.length);   
-                                    move = "btn_" + arr[ch] + "_local";
-                                    if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                    {
-                                        flag=1;
-                                        document.getElementById(move).click();   
-                                    }
-                                }
-                            }
-                        }
+                        play_random_choice([6,4,9,7]);
                     }
                     else if(btn1=="X" && btn6=="X" && btn5=="O")    //case 16
                     {
-                        var arr=[3,2,9,8];
-                        var ch = Math.floor(Math.random() * arr.length);   
-                        move = "btn_" + arr[ch] + "_local";
-                        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById(move).click();   
-                        }
-                        else
-                        {
-                            arr.splice(ch,1);
-                            ch = Math.floor(Math.random() * arr.length);   
-                            move = "btn_" + arr[ch] + "_local";
-                            if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                flag=1;
-                                document.getElementById(move).click();   
-                            }
-                            else
-                            {
-                                arr.splice(ch,1);
-                                ch = Math.floor(Math.random() * arr.length);   
-                                move = "btn_" + arr[ch] + "_local";
-                                if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                {
-                                    flag=1;
-                                    document.getElementById(move).click();   
-                                }
-                                else
-                                {
-                                    arr.splice(ch,1);
-                                    ch = Math.floor(Math.random() * arr.length);   
-                                    move = "btn_" + arr[ch] + "_local";
-                                    if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                    {
-                                        flag=1;
-                                        document.getElementById(move).click();   
-                                    }
-                                }
-                            }
-                        }
+                        play_random_choice([3,2,9,8]);
                     }
                     else if(btn3=="X" && btn8=="X" && btn5=="O")    //case 17
                     {
-                        var arr=[6,4,9,7];
-                        var ch = Math.floor(Math.random() * arr.length);   
-                        move = "btn_" + arr[ch] + "_local";
-                        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById(move).click();   
-                        }
-                        else
-                        {
-                            arr.splice(ch,1);
-                            ch = Math.floor(Math.random() * arr.length);   
-                            move = "btn_" + arr[ch] + "_local";
-                            if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                flag=1;
-                                document.getElementById(move).click();   
-                            }
-                            else
-                            {
-                                arr.splice(ch,1);
-                                ch = Math.floor(Math.random() * arr.length);   
-                                move = "btn_" + arr[ch] + "_local";
-                                if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                {
-                                    flag=1;
-                                    document.getElementById(move).click();   
-                                }
-                                else
-                                {
-                                    arr.splice(ch,1);
-                                    ch = Math.floor(Math.random() * arr.length);   
-                                    move = "btn_" + arr[ch] + "_local";
-                                    if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                    {
-                                        flag=1;
-                                        document.getElementById(move).click();   
-                                    }
-                                }
-                            }
-                        }
+                        play_random_choice([6,4,9,7]);
                     }
                     else if(btn3=="X" && btn4=="X" && btn5=="O")    //case 18
                     {
-                        var arr=[2,1,8,7];
-                        var ch = Math.floor(Math.random() * arr.length);   
-                        move = "btn_" + arr[ch] + "_local";
-                        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                        {
-                            flag=1;
-                            document.getElementById(move).click();   
-                        }
-                        else
-                        {
-                            arr.splice(ch,1);
-                            ch = Math.floor(Math.random() * arr.length);   
-                            move = "btn_" + arr[ch] + "_local";
-                            if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                            {
-                                flag=1;
-                                document.getElementById(move).click();   
-                            }
-                            else
-                            {
-                                arr.splice(ch,1);
-                                ch = Math.floor(Math.random() * arr.length);   
-                                move = "btn_" + arr[ch] + "_local";
-                                if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                {
-                                    flag=1;
-                                    document.getElementById(move).click();   
-                                }
-                                else
-                                {
-                                    arr.splice(ch,1);
-                                    ch = Math.floor(Math.random() * arr.length);   
-                                    move = "btn_" + arr[ch] + "_local";
-                                    if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
-                                    {
-                                        flag=1;
-                                        document.getElementById(move).click();   
-                                    }
-                                }
-                            }
-                        }
+                        play_random_choice([2,1,8,7]);
                     }
                     if(flag==0)
                     {
@@ -864,7 +528,7 @@ function computer(level)    //function to implement game against computer
     document.getElementById('mainMenu').style.display='none';
 }
 
-function get_optimal_win()  //function to check if there is any move using which computer can win
+function get_optimal_move(mode)  //function to get optimum move to win or block
 {
     var btn1 = document.getElementById('btn_1_local').innerHTML;
     var btn2 = document.getElementById('btn_2_local').innerHTML;
@@ -875,213 +539,123 @@ function get_optimal_win()  //function to check if there is any move using which
     var btn7 = document.getElementById('btn_7_local').innerHTML;
     var btn8 = document.getElementById('btn_8_local').innerHTML;
     var btn9 = document.getElementById('btn_9_local').innerHTML;
-    if(btn1==btn2 &&  btn1=="O" && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn1==btn2 &&  btn1==mode && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 3;
     }
-    if(btn1==btn3 &&  btn1=="O" && btn2=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn1==btn3 &&  btn1==mode && btn2=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 2;
     }
-    if(btn3==btn2 &&  btn2=="O" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn3==btn2 &&  btn2==mode && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 1;
     }
-    if(btn4==btn5 &&  btn4=="O" && btn6=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn4==btn5 &&  btn4==mode && btn6=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 6;
     }
-    if(btn4==btn6 &&  btn4=="O" && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn4==btn6 &&  btn4==mode && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 5;
     }
-    if(btn5==btn6 &&  btn5=="O" && btn4=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn5==btn6 &&  btn5==mode && btn4=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 4;
     }
-    if(btn7==btn8 &&  btn7=="O" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn7==btn8 &&  btn7==mode && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 9;
     }
-    if(btn7==btn9 &&  btn7=="O" && btn8=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn7==btn9 &&  btn7==mode && btn8=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 8;
     }
-    if(btn8==btn9 &&  btn8=="O" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn8==btn9 &&  btn8==mode && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 7;
     }
-    if(btn1==btn4 &&  btn1=="O" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn1==btn4 &&  btn1==mode && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 7;
     }
-    if(btn1==btn7 &&  btn1=="O" && btn4=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn1==btn7 &&  btn1==mode && btn4=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 4;
     }
-    if(btn7==btn4 &&  btn4=="O" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn7==btn4 &&  btn4==mode && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 1;
     }
-    if(btn2==btn5 &&  btn2=="O" && btn8=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn2==btn5 &&  btn2==mode && btn8=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 8;
     }
-    if(btn2==btn8 &&  btn2=="O" && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn2==btn8 &&  btn2==mode && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 5;
     }
-    if(btn8==btn5 &&  btn5=="O" && btn2=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn8==btn5 &&  btn5==mode && btn2=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 2;
     }
-    if(btn3==btn6 &&  btn3=="O" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn3==btn6 &&  btn3==mode && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 9;
     }
-    if(btn3==btn9 &&  btn3=="O" && btn6=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn3==btn9 &&  btn3==mode && btn6=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 6;
     }
-    if(btn9==btn6 &&  btn6=="O" && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn9==btn6 &&  btn6==mode && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 3;
     }
-    if(btn1==btn5 &&  btn1=="O" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn1==btn5 &&  btn1==mode && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 9;
     }
-    if(btn1==btn9 &&  btn1=="O" && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn1==btn9 &&  btn1==mode && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 5;
     }
-    if(btn9==btn5 &&  btn5=="O" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn9==btn5 &&  btn5==mode && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 1;
     }
-    if(btn3==btn5 &&  btn5=="O" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn3==btn5 &&  btn5==mode && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 7;
     }
-    if(btn3==btn7 &&  btn3=="O" && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn3==btn7 &&  btn3==mode && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 5;
     }
-    if(btn7==btn5 &&  btn5=="O" && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    if(btn7==btn5 &&  btn5==mode && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
     {
         return 3;
     }
     return -1;
 }
 
-function get_optimal_block()    //function to check if there is need of a move to block opponent win
+function play_random_choice(arr)    //function to select a move randomly out of available choices
 {
-    var btn1 = document.getElementById('btn_1_local').innerHTML;
-    var btn2 = document.getElementById('btn_2_local').innerHTML;
-    var btn3 = document.getElementById('btn_3_local').innerHTML;
-    var btn4 = document.getElementById('btn_4_local').innerHTML;
-    var btn5 = document.getElementById('btn_5_local').innerHTML;
-    var btn6 = document.getElementById('btn_6_local').innerHTML;
-    var btn7 = document.getElementById('btn_7_local').innerHTML;
-    var btn8 = document.getElementById('btn_8_local').innerHTML;
-    var btn9 = document.getElementById('btn_9_local').innerHTML;
-    if(btn1==btn2 &&  btn1=="X" && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    var ch,move;
+    for(let i=0;i<arr.length;)
     {
-        return 3;
+        ch = Math.floor(Math.random() * arr.length);   
+        move = "btn_" + arr[ch] + "_local";
+        if(document.getElementById(move).innerHTML=="&nbsp;&nbsp;&nbsp;&nbsp;")
+        {
+            flag=1;
+            document.getElementById(move).click();   
+            return arr[ch];
+        }
+        else
+        {
+            arr.splice(ch,1);
+        }
     }
-    if(btn1==btn3 &&  btn1=="X" && btn2=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 2;
-    }
-    if(btn3==btn2 &&  btn2=="X" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 1;
-    }
-    if(btn4==btn5 &&  btn4=="X" && btn6=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 6;
-    }
-    if(btn4==btn6 &&  btn4=="X" && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 5;
-    }
-    if(btn5==btn6 &&  btn5=="X" && btn4=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 4;
-    }
-    if(btn7==btn8 &&  btn7=="X" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 9;
-    }
-    if(btn7==btn9 &&  btn7=="X" && btn8=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 8;
-    }
-    if(btn8==btn9 &&  btn8=="X" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 7;
-    }
-    if(btn1==btn4 &&  btn1=="X" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 7;
-    }
-    if(btn1==btn7 &&  btn1=="X" && btn4=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 4;
-    }
-    if(btn7==btn4 &&  btn4=="X" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 1;
-    }
-    if(btn2==btn5 &&  btn2=="X" && btn8=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 8;
-    }
-    if(btn2==btn8 &&  btn2=="X" && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 5;
-    }
-    if(btn8==btn5 &&  btn5=="X" && btn2=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 2;
-    }
-    if(btn3==btn6 &&  btn3=="X" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 9;
-    }
-    if(btn3==btn9 &&  btn3=="X" && btn6=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 6;
-    }
-    if(btn9==btn6 &&  btn6=="X" && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 3;
-    }
-    if(btn1==btn5 &&  btn1=="X" && btn9=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 9;
-    }
-    if(btn1==btn9 &&  btn1=="X" && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 5;
-    }
-    if(btn9==btn5 &&  btn5=="X" && btn1=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 1;
-    }
-    if(btn3==btn5 &&  btn5=="X" && btn7=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 7;
-    }
-    if(btn3==btn7 &&  btn3=="X" && btn5=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 5;
-    }
-    if(btn7==btn5 &&  btn5=="X" && btn3=="&nbsp;&nbsp;&nbsp;&nbsp;")
-    {
-        return 3;
-    }
-    return -1;
 }
 
 function local()    //function to implement local game
@@ -1214,7 +788,7 @@ function check_win_local()  //fucntion to check game over situation for local ga
     }
 }
 
-function play_move(id)  //fucntion to play at specific cell in local game
+function play_move(id)  //function to play at specific cell in local game
 {
     document.getElementById(id).disabled = true;
     if(turn==1)
@@ -1280,7 +854,9 @@ function playAgainLocal()   //function for play again functionality in local gam
     cnt = 1;
     if(mode==5)
     {
-        computer(difficulty);
+        setTimeout(()=>{
+            computer(difficulty);
+        },300);
         return;
     }
     st.innerHTML = "Player 1 turn";
