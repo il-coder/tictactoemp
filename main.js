@@ -1,3 +1,7 @@
+/*
+author : PIYUSH GARG
+*/
+
 /* Common variables */
 var mode=0;
 /* Online Variables */
