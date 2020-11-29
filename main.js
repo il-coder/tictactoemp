@@ -750,13 +750,13 @@ function check_win_local()  //fucntion to check game over situation for local ga
         {
             gameOverLocal("Match Draw!","You played very well.");
             localLog.innerHTML += "<p>Match Draw! You played very well.</p>";
+            clearInterval(cInv);
         }
         else
         {
             gameOverLocal("Match Draw!","Both players played optimally.");
             localLog.innerHTML += "<p>Match Draw! Both players are at same level.</p>";
         }
-        clearInterval(cInv);
     }
     if(flag==1)
     {
@@ -764,13 +764,13 @@ function check_win_local()  //fucntion to check game over situation for local ga
         {
             gameOverLocal("Computer Won!","Computer defeated you.");
             localLog.innerHTML += "<p>Computer Won! You lost against computer.</p>";
+            clearInterval(cInv);
         }
         else
         {
             gameOverLocal("Player 1 Won!","Player 1 won the match defeating player 2.");
             localLog.innerHTML += "<p>Player 1 Won! Player 1 defeated the opponent.</p>";
         }
-        clearInterval(cInv);
     }
     else if(flag==2)
     {
@@ -778,13 +778,13 @@ function check_win_local()  //fucntion to check game over situation for local ga
         {
             gameOverLocal("Player Won!","Player defeated the computer.");
             localLog.innerHTML += "<p>Player Won! Player defeated the computer player.</p>";
+            clearInterval(cInv);
         }
         else
         {
             gameOverLocal("Player 2 Won!","Player 2 won the match defeating player 1.");
             localLog.innerHTML += "<p>Player 2 Won! Player 2 defeated the opponent.</p>";
         }
-        clearInterval(cInv);
     }
 }
 
@@ -854,6 +854,7 @@ function playAgainLocal()   //function for play again functionality in local gam
     cnt = 1;
     if(mode==5)
     {
+        clearInterval(cInv);
         setTimeout(()=>{
             computer(difficulty);
         },300);
@@ -874,6 +875,10 @@ function gameOverLocal(title,msg)   //function to display game over dialog box
 
 function mainMenuLocal()    //function to go to main menu from a local game
 {
+    if(mode==5)
+    {
+        clearInterval(cInv);
+    }
     document.getElementById("overlay1").style.display="none";
     localLog.innerHTML = "<p>Match Started</p>";
     document.getElementById('offGame').style.display='none'; 
