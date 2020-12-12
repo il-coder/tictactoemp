@@ -532,6 +532,10 @@ function computer(level)    //function to implement game against computer
     document.getElementById('mainMenu').style.display='none';
 }
 
+/*
+author : PIYUSH GARG
+*/
+
 function get_optimal_move(mode)  //function to get optimum move to win or block
 {
     var btn1 = document.getElementById('btn_1_local').innerHTML;
