@@ -920,7 +920,7 @@ function online()   //function to implement online multiplayer
     document.getElementById('mainMenu').style.display='none';
     document.getElementById('overlay').style.display="block";
     log.innerHTML = "<p>Match Started</p>";
-    url = "wss://connect.websocket.in/v3/" + scnt +"?apiKey=NxcDNyx8dSmaMAVSGc0jLCXSYXBEwxdmRBIdZUnuannYKQKhyXRIseij7wvO";
+    url = "wss://us-nyc-1.websocket.me/v3/" + scnt +"?apiKey=NxcDNyx8dSmaMAVSGc0jLCXSYXBEwxdmRBIdZUnuannYKQKhyXRIseij7wvO";
     socket = new WebSocket(url);
     message();
     socket.onopen = function(){
@@ -1024,7 +1024,7 @@ function host()     //function to allow to generate code and connect using it
     document.getElementById('mainMenu').style.display='none';
     document.getElementById('overlay').style.display="block";
     log.innerHTML = "<p>Match Started</p>";
-    url = "wss://connect.websocket.in/v3/" + code_channel +"?apiKey=NxcDNyx8dSmaMAVSGc0jLCXSYXBEwxdmRBIdZUnuannYKQKhyXRIseij7wvO";
+    url = "wss://us-nyc-1.websocket.me/v3/" + code_channel +"?apiKey=NxcDNyx8dSmaMAVSGc0jLCXSYXBEwxdmRBIdZUnuannYKQKhyXRIseij7wvO";
     socket = new WebSocket(url);
     message();
     socket.onopen = function(){
@@ -1107,7 +1107,7 @@ function join()     //function to implement join with others using code function
     document.getElementById('overlay').style.display="block";
     log.innerHTML = "<p>Match Started</p>";
     code_channel = parseInt(code[3]+code[4]);
-    url = "wss://connect.websocket.in/v3/" + code_channel +"?apiKey=NxcDNyx8dSmaMAVSGc0jLCXSYXBEwxdmRBIdZUnuannYKQKhyXRIseij7wvO";
+    url = "wss://us-nyc-1.websocket.me/v3/" + code_channel +"?apiKey=NxcDNyx8dSmaMAVSGc0jLCXSYXBEwxdmRBIdZUnuannYKQKhyXRIseij7wvO";
     socket = new WebSocket(url);
     message();
     socket.onopen = function(){
